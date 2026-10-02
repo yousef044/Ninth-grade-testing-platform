@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الاختبار السريع لشهادة التاسع في سوريا</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Cairo & Fira Code) -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
-    <!-- مكتبة الـ Confetti للمؤثرات البصرية -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
         tailwind.config = {
@@ -47,8 +43,6 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-50 via-slate-50 to-blue-100 min-h-screen text-slate-800 flex flex-col">
-
-    <!-- Login Overlay / View -->
     <div id="login-view" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-100 space-y-6 text-center">
             <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-3xl shadow-inner">
@@ -58,21 +52,17 @@
                 <h2 class="text-2xl font-black text-slate-900">تسجيل الدخول للمنصة</h2>
                 <p class="text-xs text-slate-500 font-semibold">أدخل كود التفعيل الخاص بك (10 خانات مختلطة)</p>
             </div>
-            
             <div class="space-y-4">
                 <input type="text" id="access-code-input" placeholder="أدخل كود التفعيل الخاص بك " maxlength="10" class="w-full text-center tracking-widest font-mono uppercase px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-lg font-bold">
                 <button onclick="verifyAccessCode()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold shadow-lg transition">دخول المنصة</button>
                 <div id="login-error" class="text-rose-600 text-xs font-bold hidden">الكود غير صالح، مستخدم مسبقاً، أو غير مسجل!</div>
             </div>
-
-            <!-- مربع نص أنيق لطلب كود التواصل عبر واتساب -->
             <div class="pt-4 border-t border-slate-100 space-y-3">
                 <p class="text-xs text-slate-600 font-medium">لست تمتلك كود تفعيل؟ يمكنك طلب كود التواصل الآن:</p>
                 <a href="https://wa.me/963936051257?text=مرحباً، أرغب في طلب كود تفعيل لمنصة الاختبار السريع لشهادة التاسع" target="_blank" class="flex items-center justify-center gap-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 py-2.5 px-4 rounded-xl text-xs font-bold transition shadow-sm">
                     <i class="fa-brands fa-whatsapp text-lg"></i> طلب الكود عبر واتساب (+963936051257)
                 </a>
             </div>
-            <!-- مربع نص أنيق لطلب كود التواصل عبر تليجرام -->
             <div class="pt-4 border-t border-slate-100 space-y-3">
                 <p class="text-xs text-slate-600 font-medium"> أو </p>
                 <a href="https://t.me/Yz044" target="_blank" class="flex items-center justify-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 py-2.5 px-4 rounded-xl text-xs font-bold transition shadow-sm">
@@ -81,7 +71,6 @@
             </div>
         </div>
     </div>
-
     <header class="bg-white/85 backdrop-blur-md sticky top-0 z-40 border-b border-indigo-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3 cursor-pointer" onclick="returnToHome()">
@@ -100,23 +89,16 @@
             </div>
         </div>
     </header>
-
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 md:py-10">
-        
-        <!-- Home View -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 md:py-10"> 
         <div id="home-view" class="space-y-8">
             <div class="text-center max-w-3xl mx-auto space-y-3">
                 <span class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wider">منهاج الجمهورية العربية السورية</span>
                 <h2 class="text-2xl md:text-4xl font-black text-slate-900 leading-tight">اختر المادة وابدأ التدريب الفوري</h2>
                 <p class="text-slate-600 text-sm md:text-base">تحتوي كل مادة على عدد الأسئلة المحدد بدقة مع تصحيح فوري ومؤثرات تفاعلية.</p>
             </div>
-
-            <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                <!-- Subjects populated via JS -->
+            <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"> 
             </div>
         </div>
-
-        <!-- Quiz View -->
         <div id="quiz-view" class="hidden space-y-6">
             <div class="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-slate-100 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
@@ -125,8 +107,7 @@
                         <h3 id="current-subject-title" class="text-lg md:text-xl font-bold text-slate-900"></h3>
                         <p class="text-xs text-slate-500">بنك الأسئلة الامتحانية (<span id="total-q-label">100</span> سؤال)</p>
                     </div>
-                </div>
-                
+                </div> 
                 <div class="flex items-center gap-3">
                     <div class="bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-2 text-emerald-700 font-bold text-xs md:text-sm">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i> صحيح: <span id="live-correct-count">0</span>
@@ -135,7 +116,6 @@
                         <i class="fa-solid fa-circle-xmark text-rose-600"></i> خطأ: <span id="live-incorrect-count">0</span>
                     </div>
                 </div>
-
                 <div class="flex items-center gap-3">
                     <div class="bg-indigo-50 px-4 py-2 rounded-xl border border-indigo-100 text-indigo-700 font-bold text-sm">
                         السؤال <span id="current-q-num">1</span> / <span id="total-q-num">100</span>
@@ -145,12 +125,9 @@
                     </button>
                 </div>
             </div>
-
             <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6 relative overflow-hidden">
                 <div id="question-text" class="text-lg md:text-xl font-bold text-slate-900 leading-relaxed min-h-[4rem] flex items-center"></div>
-
                 <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"></div>
-
                 <div class="flex items-center justify-between pt-4 border-t border-slate-100">
                     <button id="prev-btn" onclick="prevQuestion()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-arrow-right"></i> السابق
@@ -161,8 +138,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Completion View -->
         <div id="completion-view" class="hidden max-w-lg mx-auto bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center space-y-6">
             <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner">
                 <i class="fa-solid fa-award"></i>
@@ -193,22 +168,16 @@
         </div>
 
     </main>
-
     <footer class="bg-white border-t border-slate-100 py-4 mt-auto">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 font-semibold">
-            منصة الاختبار السريع لشهادة التعليم الأساسي الصف التاسع في سوريا &copy; 2026[cite: 7] <br> by: Eng.Yousef
+            منصة الاختبار السريع لشهادة التعليم الأساسي الصف التاسع في سوريا <br> by: Eng.Yousef
         </div>
     </footer>
-
     <script>
-        const _encodedCodes = [
-            "UkFOQVVGTjNOQg==","VUpWWVA5Q1hVMA==","MFFaWFVOUkhSUA==","QzU5NVVFQVc5Vw==","SVNJMUdMUFc1MA==","MUJTQ0czUFJBTA==","U0ZWSEM5Q1ZCTQ==","UURSV0xPSkFBSw==","SExOSzhQVVVWUg==","MTBaUExJQzUwMw==","UTVCSUxMTlBIWA==","ME1GRkpCVlFYNQ==","TVU3R0RXREIyMQ==","NU9QWUdVUU5TTg==","QlZKQklONllSSw==","OU02RkpYWVowVw==","SVVJTUdCOVkyOQ==","T0tMRUFMSE9OTw==","NlYyN05JWEg2Sw==","UjFQTzBCU0FUNw==","MDVSSTA0QlZBVw==","Qk5JSEJORlc4WQ==","UkJRQUZGS1Q0WA==","T0hZVUhXOE81Uw==","U0ZFRDJQMjRWSw==","U1lZWVc5MFdHVg==","OEpRMDI0S0g3Nw==","TkZHWjBNTTA0MQ==","R0xUNVRJQVM2RA==","R1laSDRFSlhTSQ==","VFVWT1IySzdDUA==","MzFZQzYzVVFaMA==","NzhUOVlCQlk5Vg==","Sk1OSEw1NzJBQw==","Qk1VOEs0UFJTVA==","UU5ROTYwR1Y2UA==","Q1FSV1c0RDM5Tw==","QlQ2UjdGNENUUw==","M1dETDJPSDVKOA==","SFNMUE85OFlSTw==","VjNOSERHV04wQw==","UkUxUkdIMlI2UQ==","WUszN002RVhaVw==","SlpDNVFGTEFWVA==","UkhYQkk4TU9TSg==","Qk01UzkwMkRDVw==","TUNNOTZaWk9IQQ==","RFNHMDU2SEVYRw==","S0FNN0RBMzJUSg==","U0ZQNVVCMVg2OQ==","NTBGNVVVMEk5Rw==","UUlWOFFIRkw1WQ==","VjI0VTU3VjlNRw==","WDg3UllTWjVCWQ==","QjRaSFBOOE1SRQ==","ODEyMDdHSjFaSA==","R1hHSzFSNzJRMw==","UkswREUwMFpLMQ==","VkNTMjU0NEcySQ==","QkdXMkRGMjg3Rg==","Rk5DUlZZRkNZMA==","M1NURVJKSU1CNg==","Ukw5RjZQOFFQWQ==","WUZDVzhKT1VPVw==","Mk1QSEZCQjA2Rw==","MDI1VEFEMVdMUw==","NUlMdkc2Wkc1Qw==","MTVBVkxJT1dZSg==","SDYwMDEyWk5MOA==","NVdUOFlIVUhKNQ==","UEM3T0FaVVE3Vg==","U1RQVk9WQTlBNw==","VENLSE05UVlBQQ==","VENXMkNMRE1NRQ==","RTg3NEZKRzQyUw==","WjRETk4xUTRSRg==","WjFZT0VSUTRDUQ==","SlMyN0hUQVpIUQ==","MFpET09NREZCMQ==","NEpNVjczRENYUQ==","N1pBNEVORVVPMg==","OEw0NzlDTDE4Tg==","SVgyMEYyWlhNUg==","WUs0TFo3UVdZSA==","Mzg4Rk9ZWU9BQQ==","VFA2MVlJT0Q4NA==","SjM5UVdZWVlBNQ==","TjRWNzJVTFYxSQ==","NzFZWDFVMzdOMg==","RzJQOTZOWUw4VA==","WFYzTFA0OEw5Vg==","SVpaT1c5S1ZYQQ==","RTFVNE5XN1Y4UA==","TllaVVJCSFZPRQ==","OVVLVzFVMFhCNw==","SFJTQ1dRVEQwMQ==","VUYyRVpPTkwzQg==","VU43WjdaVlRXVw==","OUpLTVpCU05IWg==","MlQ1SUY5UDdZNg==","SzU0U1pFT1hSSQ==","TEhMUVI0MUFQUA==","UjU5WDdKWDhFSw==","OFYzWE5VUVNIRQ==","OUNFVllEOTFRRg==","U1RRNU8yR0JNUA==","MlBQNTVDSUZPRg==","MUxZR1pDWTc3WQ==","RDdUUVZGR1UwRg==","SDNBMk5JVEVHSg==","QURCOVgxUUFYRw==","Q1dVOTg5Q0FCVw==","TFhaSVJIMzRLWg==","WUxEQzdFWlQ0VQ==","QzRJMVBLV0lTRw==","RkFMV0xBTTVINA==","OE5XQVEwM1lIUg==","TUI4QzJQSDRZVA==","QVEwTTJVVzZYTA==","OTVXUEZETjhWNQ==","N1VYVzYyUDZSQg==","SlRFQVVHU0U3Wg==","UzBJVUVYVDhMWA==","M1RWMEVHTUZZMA==","NERXTklDWDgwNA==","Vk9ZUDc1UlpYSw==","VUlGTlNGSk44TA==","VUlHS0dDQjZZQQ==","QTVRTVBKTzQyNw==","S1k0NExMREtDRg==","NkQzUlVLWEVZUg==","VEQ5UTVBSFBYMA==","NEdRRE1PTVpIMw==","N1FGWEM5QkY5Mg==","MjZMSkc2TDMzUQ==","NzMyMFJFUkJWQQ==","QzlWQjNEVTRRRg==","MVFDMEFJWjRKMg==","R01IQlVBR01GOA==","SUVWMTE5SkhUWA==","V0NCSVBVS0NPTg==","UzRWT1hFRU0zSw==","UFQyQkMxWU40OQ==","RTFHNFhQRzgySA==","R1lIVkhBR0RKQg==","VDdWWjM5TDM3Uw==","Q1JGOVBBMlRCVA==","MEdNUVZQVFZJVg==","REhVNkVFUEowMQ==","NkdTNThZSFBGSA==","STNDMjBQTUNVRw==","WURRQVA4N0VTNw==","OVpUVE5SOFdYMA==","M0s4WkdTM1NaNA==","VzU1M002R0xBQQ==","TjczRDY3UDJYRA==","RzhCTURCVVgzWA==","T084RlhDRTdKSg==","UVQ5TjVHRE0xUQ==","R1dQTzA3QkQxVg==","RVVMUDkxNUpETQ==","Q0xMNkU2WDlQTQ==","VkhSWURUWDM3Mw==","REZPNTAzTDAzOA==","QkFSUFBMQjFXVQ==","NklSOEVVSEw0WQ==","MFBIWklXNFExMg==","VENFNVBKUzFHVA==","MVlUVDdCMlY4OA==","NzI1TU00WEk5Uw==","Q1lNODBUUFE4Sw==","VjVHTjBFSFE0Ng==","UEtaNVUzRUxWSQ==","NEgzMlA3MTFRMg==","MUxJM09KMTdFWg==","V1JMSlcyTkpCTA==","WEQxM1FQNkNUQw==","SjhEM0ExM0NUUQ==","STcxNTRaM1RaTQ==","MzJPNUc0QzREMA==","NFZLQzlIMU02VA==","ME9YQ0hNVEVZUQ==","RzdOUjkzVUpGMw==","WU9EU043V0kwTQ==","U1gyNldTNTYwQQ==","RE5VSFZKWTNQSQ==","WEREWDA0RklSVg==","VU40QTk2QUVUVw==","SEZYVVdRTTRJWg==","R0dWVjlQS0dLNA==","NkZBQVQ1NElOOQ==","V0xYUDExWDI0TQ==","SzNJQVQ4QjY5Sg==","SDVXSFhLNE0xOQ==","NkdYU1EzTzJaUg==","SlZHWTdNT1lQNw==","VDQ4V083UTlSOA==","NVhKWkRXRUdTRA==","V1VUV0NLVk5KWA==","MFlUMTFLNkFOSg==","MzdNTEVORjhUVw==","V1NJQ004UlRaWA==","UllMUkI4RU02Wg==","WDFPRTE1TUFNVw==","SDhUMlJOUThTUw==","NjFUQjZLQVNTUw==","MlRFMExKNzRTSw==","RUtFUEdYSVQ0Tw==","OTlUUjQ0Q1VFVQ==","N1FKWVE0WU1JUA==","Q09OTVlNTVJGRQ==","ODczUjVaV0hTVA==","VzBHVkU5VTM5Nw==","VEQ0R1pUTVZFVQ==","WlJSS1laM0w2VQ==","TzFXVFpISE9RVg==","OEcySkVQMVlMRQ==","UVVERTkwNFVRRw==","N0k4QUNVTEZERQ==","UjBQVjlOT01CTg==","RzVPVDdTVTczUw==","WFBVNThJTUY4OQ==","MEkxMUhPTUlDOA==","QTJNTjY0Rkw3VQ==","UkZSWjdKWFo3Vw==","MDgzRkZQVE85Wg==","WEpWNUFZNjRGVQ==","TkcxRFo5UUJETQ==","OEpGV0JBVEJUMA==","NklFTFlWREZMWg==","TEc1RU5DRlc5Rw==","RUEwUzNEMVZZNQ==","VkVTRE42SUZNRw==","OElPQjBaREhXOA==","OUdJRkhQUlU4Sw==","R1pDRllNVENKUQ==","OEdXVkwxTEkzVg==","WVlHQTE2WkMxTQ==","UjdDQUdUN1FINw==","OVo4RjAyTUtGNg==","TEVWSDA3M01EMQ==","ODlSTkdIU01MSA==","MDBNMFhMTUVFUA==","RzI5WUJHSkFVNA==","MUVVWlZSOExDMw==","U0FBTkNHNTlaUA==","M1hOUzlSSjhPRQ==","RjA2WkhONVVWQQ==","OFFQVlhJVFkxSA==","T1dTVTJMSUM0SA==","QjVBVzRCQ1lEWA==","SVY2UFNGTFowTQ==","S082OEcwMTBQNg==","VFlESTg5VDAxNg==","RDlSUkI4VDhKMg==","QTFLTjhHUjlZQw==","TTI4Ukk2R1kyUg==","TDYxNzNMMEM3TQ==","TEJHWlVPR1hBWg==","RU1JTlQ4R04yUg==","UzZUME01M1ROWQ==","N0s1QkFaU0MxUQ==","MzU4S09QWjhCQg==","OTc5QkkzSUpVNw==","SDZPTDNNWVhBMA==","VUxYS01GSlg2Uw==","WFk1NlhPMU1TNg==","UUE3Sko1Tjg1Wg==","SUZOOVFPNVI2OA==","N1oySDIwNlZaMA==","SFU5TlU5M1gyTA==","MUJCNzdMQTNVMg==","T1lKSDFTVzFBTQ==","VUVYWVpSTlA1Sw==","VkMyRjZNVEcwNg==","WVhCMVc1Mk41RQ==","RlROVFVIMlFZMg==","NDVaUDlCUVZVSA==","M1FKMFJQUVFVMg==","QVFRRUg1QzZVOA==","RzVVR1gxTzU2Wg==","Q0FSMkRQWE9QUA==","S0hLMVRKWEIxMQ==","WFRQSDhUMVZRTA==","MUgyQTZET0FLMg==","NkhFNElJN1lXUg==","SVc1SjlINkQ5Nw==","QTA0TExDRUY0NA==","TFZBUVRXM09WSg==","RkpPUjc3Mk81Ug==","RTNWSVA3VTBHNA==","T1ZPQ0tDR1ZIUw==","VjVPRlo5RzhaTg==","TVc3SUlRSFY1Qw==","QThRQ1Q0UFpDTg==","OThXNERCVkZSVg==","OFYzQzBVQ1hPSA==","VFRGMUNOTElPRg==","TFhTNVFRUzhVRg==","Ukc5TjZKSjI1Tg==","RUVXNU03REhTQQ==","UFJZWE44OEg0TQ==","RkJZRlVEQ0MxMA==","RENGU1BOMzlGNA==","OFJCRkdOQkNBWA==","S05YT1EzTlE1WA==","RjhHQktISlJBSQ==","TU4zMldDUEI4Wg==","UEJWSVg2VjdKQQ==","MFlBRUJSS09YSw==","MFM0MUk0OU00VQ==","SU1HM0xBNFZRRg==","ODAwUTlLUk5DVg==","WkxaRzBMODIwNg==","MVBKUlFWNVozMA==","RUxYOVIyNDBaSg==","VUtFS1JVTFNJUw==","TE1SSUs3VlVCNQ==","QjhGWVgxWFBLUw==","MlFKWUtDNVIwSA==","SjQ0WU5KMk1XMA==","TFBORTc5MkQ2TQ==","QjFTWTEwVFJSVQ==","SkRMQ0s5V0RHMw==","NTJBVU5YTUs4Rw==","NDUxTEdXMURKQw==","SlRBNkZFR1hPRQ==","UDRWMUQxUFBETg==","QTY1RVhaRUdCRA==","NlFOMlkxVEw2Uw==","TDhUSzEwVkhIWA==","Q1lOSTlIUjlHRQ==","RjJEVktPOFdZVQ==","NkRWUUhLRUdUTQ==","QkhWMUJORTQ4Qw==","VVlGWk5HTEhWUw==","VDhKSkxGTkVNOQ==","N0EzNEpVMTE3TQ==","T0hRT0RMVjJaWg==","TEJFUFNWWlJWTw==","VzZMQTJMMk1RRQ==","NDAwM0ZNWDJDOA==","VkdHNjU1S1VVOQ==","UUJQNVY3QUwzRQ==","U04yREtCVlZMOA==","T0NUUEpPVUJQRw==","U0NUNFZIMVYwRQ==","VkIzVklVRUFSSQ==","ODlVVFFQMDJPNA==","VVNQSkpaUUZNSA==","RzNLVzA2U1IxSw==","Rlo4NU9VODFRUQ==","Q0hQUEw2RzYyOQ==","NkRZRFY2SkZUSw==","V0dOMlMzODhJWQ==","RkIzQjJKUkRIWA==","ODdYTkw5N08xMA==","SU1JVlFDRUdCTg==","N0UxTEtFNlc3NA==","OFdBMEU2UFZIMA==","RDJZMjBXMDFDUQ==","S0E5UzgzNkNUSA==","OTRKNzhEQ00xSQ==","QTdIOFFNSVkzRA==","RDQwRTFJVkVCSw==","NTAzMFc0VVlWRA==","NzI3MjE0WjZBNg==","WlVDSzNHWVVSWQ==","TUE3UTZWNzFQUg==","RFZPM0NTVjM5SA==","VzlDV1FNS0U3MQ==","UEpUNVNVRUZPUA==","U0VTWDMyVUJMUQ==","TkZXM0MyVENaTA==","VENSR0lSSU1KVA==","M1ZBSUlKWEVOOQ==","UERQTldLWjhXWA==","MFhIMUZBWk5BTA==","WTNCMFFGVlZRNw==","MFI4MlZPMFBQWA==","UVlUUEoyRTlWUQ==","R1FZUldIMEtXSg==","TVhEWFlXOFcwVw==","UkVLRDFLSkpIMA==","QkJONENDODBQNg==","MlRPVUFUS1lNOQ==","QjQ3RldMMVhRUw==","ODcyT0ZORDE3Qg==","QkNEM0c4VlhROA==","Q1k2U1k1N1E3QQ==","T1k4U0IxMTg2Mw==","RFYwMzJLSVdSVg==","SDdMS0dWOEtONQ==","TklGVFBPREdTMQ==","RUxLUE5aM1lZMw==","VUxRWjNCUlUwVg==","MUxMMjZYQjdaTg==","VExVUlk3SE5GMA==","WlNISkRQUjNINw==","RTFIU1M1NlM4TA==","UDBQN1pOUVYwUg==","T0NCRlRDSjFBSA==","MVgxQzZUOTdRRw==","M0RLWVVXVlRGVA==","NVRTRVVNQVQwVA==","SDFRQkFWWFlGUA==","S0wzVVJVNFVINQ==","Qjc1UDBZUjlROA==","U0FaWTYyQjQ0Nw==","TFNUR0VGOE1ZRg==","MDA3MFU2SktXMA==","VkVBUTJQMlpOTg==","RDQ4TDNITExLMg==","N1RSTDgwNUdLVA==","TlJaUEQ4MktLNA==","OVc4Vkg0MTBRSg==","UlUwNlVFMjVJMA==","TTg2VktTSEFYRw==","OUNZMFBTWEIxVg==","NlpVREowU0VENw==","RFNDNUNDVzUySg==","MFM1MThOQzJENA==","SzBVWjg2MTQxOQ==","WlZaRFZESzhBUg==","R1NSWDlKTUU0Vw==","R0dPTDIwQTlPQw==","WDhRMjI1QVFCSQ==","UkJEV0s1Njc5Ng==","R0hJUkJIV0FGSw==","OFBORFpOV040WQ==","SEgwRVFTRjJGRQ==","VjkyTTRCQTU0Vw==","NFJOQzFBVDNGOQ==","NExNME9GNVdRUg==","MUlTWjkzQ0VPWg==","UUU5TVJRRlVKWQ==","TVdNRVM5UE1DUQ==","STNRUUdTWEZLWQ==","MDhESlpINUZKQQ==","R1EyWENBWTVDUg==","VzQ5VVdUNVNZVw==","W09FR1c3U0UwNw==","TFhXTVM3M1hBOQ==","TERRTk5ET0lEMg==","TExGM04xNUFNTw==","SDNWUUVSVTAwNA==","N0JMWklFQ1NSTw==","MjFKWktGVjhPOQ==","SkE1NTVEOUs5RA==","VTZLOTBQWVVDTQ==","MTQ0UjJHRUJIOA==","SkVLS1hBWExaTQ==","TlJaMU5RRkwySQ==","VUU2MERINFhLRg==","R1JKUUxFMTlKSg==","WTcwMFM4TVVIMA==","NlRCVDJIM0xLQw==","TTJLOExJSzRIUg==","Tk9RMDc5QVpZNw==","SjdXN05HOFNNTA==","NTVNVVJTUkVGUA==","V1VSOEk0OVZIMw==","UEoyMDMxVFdYOQ==","RVBYVVhLUlFWNg==","MjNURk9YSTNYTQ==","QzNGQVU1TUZUTg==","MkxEVVc3OFo2VQ==","MFY5VjM2MU5LQg==","RjBLSTg3SFVTTg==","VDZaQU8yS1Y0WA==","V1NQM0lDWDFJTQ==","NEtDRFdERzRSRA==","TE04NUxXWU9DRQ==","T1hSWVM4WklHUg==","UkNDSTdYSDEzSA==","SEpWSUM2QU41OA==","TjJEMVhKRDFGRA==","SlVFTjROQjAwQQ==","U1I1VzBYT1lRNg==","R1QwNEE1T0wxRw==","TzJONlJWOFFNTA==","MEo5NzVaSzBFMg==","VktXVEcwQUNSWg==","N1QzQTVEM1FORw==","UzhMTTJGRkhZOQ==","MTZQRFJNOEdDVw==","VkQwVVU5U1ozQw==","MkVLQTlJRVVKQg==","TkkySFMwOFNQSg==","SDZFVFBYTENCSw==","QzZORENTRjBVNQ==","RERPR0pOWEo0SQ==","SEJIQzhMWUdFSQ==","WkFPNVhOMVhDMg==","SVk0WE8wTFlWVA==","V1RHR1dHRzlYVg==","MkZLNjA3TjlDQw==","WlRCR0k4T05EVA==","VFhYUTYyWVFVSw==","VTVQT1ZOQklJUA==","Uk40T0hFR0lDQg==","STI0R0xWWDg3VA==","VDNFNlBEMkRVMg==","SkVBTTdTMFY3MQ==","U1JBRjdJMlRaWA==","WjJDVzM5NlNCTQ==","MldKWUJUN0dLWg==","TkgwOUZRMjE1Tg==","WU5YSTlGNVgwTw==","RTk4TzM2T1JVMA==","Sk5ES1dPVUVDMQ==","TFU0NzdVNU9JSQ==","U05PRjVJVTY1Vw==","Uk9aREVXVTZORw==","NlozNDJTVkxUNA==","VVNSQVRRUUFDTg==","MzRLWTRXTk4xTw==","NUtGWDJWNEhPRw==","MkI0S00xU1ZZUg==","N05BVlhGQzhNNA==","QVRJV1BYSDMwNQ==","OEg5TldQRDhVUg==","NUpVQTFHQldFTQ==","VjJPUVhMMjRZTA==","U1pORDROUFFEVg==","TUYyMkhONFlWOQ==","NjdLSDVYVTEzUg==","MUlUR1AzVTBRNg==","MDBFV1paSDBHTQ==","MlZYMFRWQVRZNw==","NEpFWDJGWlo1Uw==","NDdBQjdGNVYwUg==","M09UNDNJV1c3Mw==","TE83WUE2MTAyRw==","QzFOUDhJSEtJUQ==","SzhRV0lWN0VFVw==","T05BQTRPUUpRTg==","MDE4MTFHSlFESg==","RUczRkFVTEU3Qg==","WDBNQVRRN1NITA==","QksxVVZRQTBXVg==","WEhVNE82WU02Tg==","SElCVTAzMU5WNw==","STJFTjhRMTVXSA==","V0M4RzZMQ1NWOQ==","VjEzRjdCNE40WA==","SVZaRkM4UDFDNg==","M08zRTlKUE9GMw==","T0owRU1WM1pTUQ==","RFE4TDhLTVNDNA==","TlU4RktETEZTUQ==","U1pPTFIzMDVPQg==","TjRLWlA0Rk9INA==","Q0JWT0RRNVZRSw==","Q0wxNkw5SEZBMQ==","NUYzNThaRFFJMQ==","TFhNVE5XMjZRSg==","WTYzQ1dTTVFUTA==","NVFaVjRFRU9aQg==","WjVMWUtUR1VJNw==","QTA3MU5NR0lZWA==","Uk04VjYyRUVOTQ==","T0g1UjdTVVdQNg==","UFc5Vk1ZQUlNQw==","ME45NUkzUUhGSA==","WDc2UkI2UkpIRA==","VzVWM1BSWFY4Uw==","Qk1TR1o2VUUzSA==","TDNKUlhFQVBVVA==","RVpYNDVEWlVPUw==","SlpCSDU2NlZNNA==","TkgyNjMxUjdGTg==","U1pRU1I1M1NTRA==","MkFYSjNGSzRXTQ==","VEo4NTg0NzFKWg==","RjMxRlU2R0tXVw==","G0hMSjc5RUxDQw==","VlhOTUZEOERVSg==","WUY0QjhGOFkyWQ==","Tzg4RUtXQ0ZFTQ==","VlIxTVNFNFQxVQ==","NE1QV1NQUTU0Nw==","MjZGTFZEVFczMw==","TEdJM0FHR040Sg==","RDI2WDdNQldCRg==","TUVLTTJENlZQMA==","MlVaQ1VLRUZQMQ==","QVRPNzY2SFNFTQ==","NkhJT0hURkRVUA==","UFVTWVIxMkhTRA==","OTYxV0C1WTlXWQ==","M00xOTNYNTBUVA==","RTM5WE1LUVZPSQ==","SU80NDhXR1hBUw==","ODNSTDBKUkYzTQ==","TlBPWTFBM1dDVw==","WUdIWTNBWFFGTw==","VkNSQktPWFhXWg==","QVMxT1c1UEhHRA==","RE5VOTRSTU41Qg==","VjA2SjI0MDA0VA==","TE42Q09ISUdHMQ==","UU05MTVBTVYzTA==","Qjg4NVVMQlQ4Mw==","UUlWTE9GTTY3Tw==","S0FLWDZKUDdMSQ==","OVUzUzk5VDdRRQ==","M1BNRkFESVk0TA==","QzBYR01TU0VPOQ==","U1k1QTZYSTgzWQ==","MEY0TlgwOUowVA==","M0lES1FLVFNFUA==","V0NNNVRWRTkxNw==","RTBSOTY5QlFVWA==","STlINUlGUlhHRQ==","RlFOQ1Q0RUlFTA==","VFFUV0oyS1ZPMw==","MzdVQVRHN0FDQg==","UUpQVjdMT0E3Ng==","VzFFNzczVDFOMg==","RjZLQlc4WVFXQw==","T1BMR1g4UUZBQw==","TDJRUDA3TjlUMQ==","T0k0WkhIRENDRg==","V1JTSU1VV0hQTg==","MkY0MThTQU1GVA==","MExISFk0S0w0Vg==","UUxRUFlaUVZLTw==","NUgyN1UyMVU0WQ==","MjVWTEpPTjg1Tw==","Q0pWVlNZQzlZQQ==","SlVCNUtWQkE2WA==","TDIzRUkyUUtYSw==","MlJUQUxURkxRSg==","WEtMMFZDUDdCVg==","T1ozMDhSVUQxUw==","T1Q0WEZOM0hGSg==","UkhRMVAwU0VPVA==","MEhUMUs5QTdYSQ==","SDNGTzU3WUVZTQ==","NVBKOVUwQkJFTg==","NURMVExWM0RVQg==","SDQwM1lSMkZINQ==","RTRFNlNHQ0Y2UA==","NE9BQlNSTzhFTQ==","UVY2NUVYQk1GWA==","UzNJTklENFI1Rg==","WDJIVFdZMk1URw==","N0VUSThNVjg3SQ==","R1dXTkQ5RDdIWA==","NFhaVTJKQVhQVw==","MkVJNk5FSUtYVg==","TVgzM002TTE5SA==","REFWQTA5N1FUQQ==","U1o3OE01WElKNQ==","TzJWTFo5Uk1MUg==","S1ZBUkY4NlMzWQ==","QzJSUVhUSVQ2Qg==","SVZZQzFTNjdRUA==","RkhIMUhCQTUwNg==","TjVQRkNXVU1UQw==","TzZRVlZPSEdOTg==","RkM3WFpNOEFRTw==","NE1LQ0xJRzlZNg==","Wjc5Uzg4UThVMA==","SkpJNDJYMDVQQw==","UTYyQlNDUVVNTA==","NUpTUDJITUNVTA==","UjNTN0NBSzhQTg==","RlQ1S0M2UzlSNw==","TU41SFo1VkdZMA==","STdTMFhCU1pCNA==","Wk1LQTcwRElPTA==","UFlPUUlZUDFNUg==","MUpMUlkwQldTUQ==","V0NBNFcxM1pKRw==","WlFHN0c2T1pZRw==","QjVUNEUyUURUMA==","V1VCVjlOWkExNA==","MVhFWTdRT0xKQQ==","MDlJU1RBWDM4Sg==","M04yVkNSTUY1OQ==","N1RRSlFPM1BINQ==","MFlJRkZSU1kzUA==","UjYyV0U0Nkw3RQ==","NVJPUkdQWlNTSw==","NEYwOFJETlNRUg==","RjcyTFVVNEI0QQ==","SzdROTlHVFQxQw==","WjhNRVJEQVEzSg==","VzlaNUIwRTMxRg==","SFJVQUZOT1VBUg==","U1lQMzlSVURPWQ==","Q0pCNk5QT0ZVNg==","NDZRMkVWTks2VA==","VTczS0FGRVEyTA==","SkVWR01IUzFQNA==","U1k1QTZYSTgzWQ==","VjNYSkQxTVFUSw==","S0Q0RUxVWTFYWg==","TlZLSjE0QlZNVQ==","RVJCMEJNMkE5TA==","QkVVUUZNRVRFQQ==","NzYyTU8zVDdFUw==","NFVIODlWSURHSw==","MjlQT1pPOU82RQ==","WjY5RENXUUNHMQ==","MVBBWEpDVDZNOQ==","T1pESE1VV0REQg==","NTdUTEFaVEMxMA==","WktOUUxKNU5UUA==","VEM0RE5aRzM0Nw==","S0ZRWlZDRFMzSw==","MUpKSU9HVVY5Tg==","SFVaME05QUI1Mg==","QjJYRjJTWFdWTA==","WTRKMEtUNTFHTg==","RDAyQk1EMVhYRQ==","TENWS1BJTkNWMg==","T0tCOU9MTTc4Mw==","WlRWWVVTU0FSMQ==","RkRESkwzNjdLVg==","T0pVUE9XQUIzMg==","V1VXOEVTWUNEVA==","RUE2WDQ4RUtKQw==","UEpaWVFSWFpBUA==","UTBHRjJSOFpOUQ==","NTRJR0cxQkUyWg==","WUJRSlozMEgwNw==","NFE0NTNDVUxIRg==","QUVRT0wxRDJDQg==","STNISlBGWENKUw==","TTEwRzVETUdWTw==","VVVaNlAxUE9JTw==","QU45RkZIWjJPSQ==","VVU0V1RJTVhGQw==","OTBDTTdVMUFERA==","Q1BaQVhaUkdKVw==","SksxSElHV1RBNg==","NFo3MzNUOVhIMA==","MUIzTjc4RUZNNw==","SENaNFBOTlZaUg==","Nlo3UkM4S0FFRQ==","MjZXT0hHOUFRTA==","SFE2RjVBSzRERg==","Q1c0NUMxUkdBNA==","N0NDOUVFWVVPMg==","S0hHRGZTOTkwWg==","WTRENDFaNE9YTg==","OTE0WTgyUVBISw==","NzhGTVQwMkhMRw==","WFpWS0MwUlRCWg==","MlVLQkc4QzBVWQ==","N0hRUlRFNzYxNQ==","M1BVSkRaM0sxMw==","U0dQUzhFSDVYNA==","OTdWQTNVRkhERA==","OExGWktPTUg1TA==","RFc2S0o2T1c2NA==","S05MRDBUNzE3Rg==","WFBVRTIxNE5GVA==","OEswUjhGUzFFSA==","MEpCUTBKV05ZQw==","V0pEN0tGUDIwWg==","UDlLVVpESVNHOQ==","MVoxMFlFWUhLUg==","REZDV0tMR0hNNA==","QlVOS0JJU1JPRQ==","OUcwWU5WWE9ENg==","R1E1TUVIUTAyMQ==","VU4xOUQzSUk3OA==","S0NCNDNRTExOMg==","NjdVWVlPRlZMNQ==","TFJZWjdWSzFZSA==","WkhQMlM5VzU2UQ==","TjBITFhRSzlaSQ==","V0s3Tk0yQ0hVNQ==","RTFWUUhVWDFRNQ==","RFFYTUg3WEFDMw==","OTAzWk9GV0pWRQ==","SURLSktVUkM1MQ==","WFdLRUFKWjVKRw==","NklOR0JUQkIySw==","UkxWMjVYVjZPQQ==","RFhLUlZNUlNETw==","UU5NTjk2TjdRVA==","TU5GUzkxOTg5NA==","S0VKVTVOQldKOA==","M1hRRFRWRVNHSA==","QVg3RzkwVk9EOQ==","UjNKSzU3Q1JQTw==","OU8wOVlBSVBXTg==","NzZPR0JVWFRPVg==","OFJEVllRS0o3UA==","RDMyVzFJSTFKUw==","WVJYWjBTNDBBRA==","VEtHQUZaSTYyWA==","VFhNSENZNlQ3UQ==","MENLNEFRM05VTg==","TE00V1pLVExCTw==","TTFaUE1DVEhXMA==","TEc0SU9JMjdWUA==","MTNJUkFUOUE1MQ==","WjU2SjgzWjI4UQ==","WUxBVTlLN09PRw==","V0ZLRzhIREZRRg==","TDA2WkM0Q1o0Ng==","UDlEV1FKSUQ2MA==","VU5aSzNQRkNDTg==","TVA0RFNMOERVSA==","T0pZWE44WUlKUA==","TDVJTklIUlc4MA==","SUcyNUE0WEs1NA==","NTRBUk9OTTVZNg==","VVVZTUI1T1lLOA==","WEEzWkFTRlNUSA==","RExZM0RZOExWMQ==","UzhHOEVYUVJTNw==","MlFZMDZSQUVETQ==","UTVBUFUwNFFXWQ==","VEZKR0haM0JUVg==","SjBQRklTS1hRUw==","STVKUjdNWlVaQw==","NDZNMFlHTVc4Qw==","R1ZMM1hLUU1WQw==","NVlNU09TMkhOMA==","Vkk3UDFWSjA2UQ==","UTA4UzlNOEhCNA==","UlEzQlE2WDQzVA==","UlFFTTY1VDJQWA==","MEw5NjdIVkZWRg==","MjFFTkhVWFVSSg==","UlFQVEI1MjFOSQ==","VTIzU0hWUEVFVg==","VE83Wk5BWU8xSQ==","RFBNREFMSFcxQw==","ODhXVVBFV1M2TA==","UTlDM0ZQVkczTA==","Q05FSkYySERKUQ==","VU9DN1lIVVVROQ==","MkIwOVZKSzVMMw==","SE4zWDBNMjNBSA==","NkZVMlU0MlhFMQ==","VkU1SElCVDRHUQ==","VTIwMDlYQkRETQ==","SDM1UTIyS0lKUA==","STlGTExMWFFLUg==","NUpZUk1ZTlg1Sg==","MUhUTFVCNjFMSg==","QTcwUkNFS1Q5VA==","SUtMUFkxMkhHNg==","Sk9ITFJXWjJHVA==","WU01MFRERUgxTQ==","Rk9KQjlNTUxWWg==","RzdLOTlENkkxNw==","RFUxNjM0NENHQQ==","UVQ2T0RPSjVXTA==","VkFDWEVSNkFFUg==","MjQwNktaV1hHMw==","WThSWko3Q00zRQ==","T0RNQ1pPUzJETg==","VVROMjhPMzhVRQ==","UUpFMDk5TEhXRA==","WVRKUVAxTDJBTA==","RllORzczMjZaSw==","OEdNWlZTV0E0Wg==","VDJFM0hLSTFRSw==","WE5LR1BOT1VKSA==","MUUzMzdHUkVNUw==","NE1LWkQ0Q1BaVQ==","UkVYODNOSlVCMQ==","VVk3Q0ZPOTdKQg==","Q1gzOUg3WkZKNg==","QjcyNU5SQzVCNg==","Q1JEREdYT0ZUWg==","NUUxREdGOEc2SA==","RE1CU1RSNTFHUw==","VDhRQ002MVg1QQ==","T0FGU0hIRlRLVQ==","SExURVpKVzZGSg==","M01UMzY4R1JHQg==","SFhXTzlBTEo5Vw==","TjVBMFRVQk1OMQ==","RFNPOEdLMDA3Tg==","TDVNTUJMN1RNMg==","SzVMOVZVSzNaQg==","MU9KUVdYRU5IVA==","SFpKUzVFQ1dCTQ==","U0pHQkU4SUE4Mg==","Tk9HUUNBSVVIRA==","SzBaUk5URzc5Wg==","STQ3NDJaSk1NVA==","WDU4Wlo1Ulk2Mg==","QVVLSE05SlFZMQ==","NVFFN0pLVEhIUQ==","OTk3VFdMU1o3VQ==","VTBXS1g1RzFNNw==","RzFWRTZJRTJZTQ==","MkZLRE4zSEYyUg==","OVNHWDk2RUNVOA==","UVNHSDNRTDdWSg==","Q09XQzJEQVpRVg==","UU5PUkMyWTRZNw==","RjFCME5UR0tFUQ==","NUo1UFFFOVZXOA==","Uk9WQjZFR002Qg==","WUROTTFaTFpTTQ==","UldGNDk0VE1NUg==","Slo1Mk9HM1RGWA==","RzE2S0ZXUzM5UA==","MExMODJaT1pVRA==","NTNBSDQ0Sk9QNw==","SFlaUU4ySlNVMQ==","Q0lQTlFGWFcwWg==","TFRYS1JNNklCVQ==","TVlRSEowUDRHMQ==","NTdDNkJIVkJDNA==","UEJZTUFaNjlONw==","MlpETU1RSUNTNA==","VVRETzBSN0xKOA==","WVlZTVEwSTlKUg==","Q1k0UkhXUUZHWA==","VEwzU0RZWTYyWA==","UVowMjBIVEJOTQ==","UUFURzA5WjBCNQ==","TFRMMVZTVUdQOQ==","NVcyTjk4STZLRA==","OEpVNjBLWVlVMg==","MDlCUVIwRklDUw==","M0M0V0FIRVc4Sw==","RjNaNEs1UENKVg==","MjE3OVAyQU5URA==","UVFaMTJFRzQ0Qw==","QklBM0Y0V1U1Qg==","M1A1QVkwRFRTTA==","NzBJNFE1OVJHRg==","WDFGMlAwRTZWSA==","TDdUQ1ZJODlZNw==","QkRUOFA0MVMxSw==","SU5YU1ZBVTZYMw==","WVNBM09XRDkwTg==","TjdIMFZWWE5GVw==","RTlYMFVLVldCMQ==","WVlBT1BBUjlZVg==","STJFSlZHN1BTNA==","UEpQSlI4U0D2SQ==","RkU4VkUwSllWTg==","OUo0MEw3SFMwQw==","VDlHNjFBTEEzNQ==","WjYwVDJSRzVHTw==","UDRZNFZSNUpOTQ==","QjBHQllXMUdCTA==","Q1FJUFpMTVNMOA==","WlZZQVVSRDJYQg==","QzdIVkswSFNTWg==","OFk3MklBVThSNg==","SUM3SjA0OTVZOA==","N1I1T0YzSjNOTQ==","Q1lTRExWOTg0QQ==","VEtHNk1FNUlTWA==","VERSRk02REQzTg==","NktDUzhHNFpGWQ==","R1NNWDcwUUE3MQ==","TjUzNTdKWjhINw==","T05PUFM3NExSTQ==","NUNHNUlHN1pJQw==","OEZLTzNaODk2WQ==","WVY1UTRCQjI4QQ==","MVdHWlNDU0xDNw==","TlZWNjlWUkZMUw==","ODlKU1RHWEUzNQ==","TEQxWEkzSUo0Tg==","OVhXOU01NU5HQw==","WlJDWllIMElPWg==","RzRJM0RPWkRBVg==","M0E0M0UxSExVOA==","SzZBUVNZSzJBSA==","TkdSUEhaWTBTVA==","UDRDWTk5TDFFRg==","T1dOVUJQMlFBUg==","TDlOM0FFODM2Qw==","S1RZQU1FQjJSRQ==","QUtIQjNDUFUwVA==","V0tIQjZYNkpGOA==","T0ZSOTlRRFpFNA==","TENVVzY4U01PWA==","TEpXOU9aVUZaRQ==","S0FZQkw0NkxSSQ==","UjVUR1VIRU1QUg==","QktXUlBLVDAzQg==","M1JFV0FGODRLMA==","NVpORlU5TkoxTg==","VjJESE9NUlpWRQ==","Q09VNFBCMEpGUg==","TzNPQVlVS0JMMw==","WlUxVzNaRVFTRA==","OEpBRDg0NDhSWg==","OU80QUlDRjJHTA==","S0hUN003Mk1aVw==","STZCMFpESTdaUQ=="
-        ];
-
+       
         function verifyAccessCode() {
             const inputVal = document.getElementById('access-code-input').value.trim().toUpperCase();
             const errDiv = document.getElementById('login-error');
-
             const boundDeviceCode = localStorage.getItem('bound_device_code');
             if (boundDeviceCode) {
                 if (boundDeviceCode === inputVal) {
@@ -219,9 +188,7 @@
                     return;
                 }
             }
-
             const isValid = _encodedCodes.some(code => atob(code).toUpperCase() === inputVal);
-
             if (isValid) {
                 localStorage.setItem('bound_device_code', inputVal);
                 document.getElementById('login-view').classList.add('hidden');
@@ -230,20 +197,16 @@
                 errDiv.classList.remove('hidden');
             }
         }
-
         function errDesc(msg) {
             const errDiv = document.getElementById('login-error');
             errDiv.innerText = msg;
             errDiv.classList.remove('hidden');
         }
-
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('bound_device_code')) {
                 document.getElementById('login-view').classList.add('hidden');
             }
         });
-
-        // قائمة المواد مع تحديد عدد الأسئلة المطلوبة لكل مادة بدقة
         const subjects = [
             { id: 'science', name: 'علوم', count: 100, icon: 'fa-atom', color: 'from-emerald-500 to-teal-600' },
             { id: 'physics', name: 'فيزياء', count: 25, icon: 'fa-bolt', color: 'from-amber-500 to-orange-600' },
@@ -257,12 +220,10 @@
             { id: 'french', name: 'لغة فرنسية', count: 50, icon: 'fa-comment-dots', color: 'from-fuchsia-500 to-pink-600' },
             { id: 'islamic', name: 'تربية إسلامية', count: 25, icon: 'fa-mosque', color: 'from-emerald-600 to-green-700' }
         ];
-
         let currentSubjectId = null;
         let currentQuestions = [];
         let currentIndex = 0;
         let userAnswers = {};
-
         function initHome() {
             const grid = document.getElementById('subjects-grid');
             grid.innerHTML = '';
@@ -292,17 +253,14 @@
             document.getElementById('quiz-view').classList.add('hidden');
             document.getElementById('completion-view').classList.add('hidden');
         }
-
         function generateQuestions(subjectId) {
             const subObj = subjects.find(s => s.id === subjectId);
             const totalCount = subObj ? subObj.count : 25;
             const questions = [];
-            
             for (let i = 1; i <= totalCount; i++) {
                 let qText = "";
                 let options = [];
                 let correct = 0;
-
                 if (subjectId === 'science') {
                     const pool = [
                         { q: "العضو الذي يعد مركز الأفعال الإرادية والوعي والذاكرة هو:", opts: ["المخ ", "المخيخ", "البصلة السيسائية", "النخاع الشوكي "], corr: 0 },
@@ -538,7 +496,6 @@
                         { q: " عندما تكون قيمة صادرات الدولة المالية أكبر من قيمة وارداتها، يكون الميزان التجاري:", opts: ["رابحاً ", " خاسراً", " متوازناً", "معدوماً "], corr: 0 },
                         { q: " من أهم الصعوبات والمشكلات التي تواجه التربة الزراعية في المناطق الجافة وشبه الجافة نتيجة الري الكثيف:", opts: [" التملح", "التفحم ", " التجمد", "الرطوبة الزائدة "], corr: 0 },
                         { q: " الصناعة السورية العريقة القائمة على تحويل القطن والصوف والحرير إلى أقمشة وملابس تسمى صناعة:", opts: [" الصناعات النسيجية", " الصناعات الكيميائية", "الصناعات الهندسية ", "الصناعات الاستخراجية "], corr: 0 }
-                        
                     ];
                     let item = pool[(i - 1) % pool.length];
                     qText = `(${i}) سؤال جغرافيا رقم ${i}: ${item.q}`;
@@ -824,22 +781,16 @@
                     options = [...item.opts];
                     correct = item.corr;
                 }
-
-                // تعديل خلط الخيارات وإيجاد مكان الإجابة الصحيحة بشكل عشوائي غير دوري تماماً
                 let originalCorrectText = options[correct];
                 let shuffledOpts = options.map((opt, idx) => ({ text: opt, isCorrect: idx === correct }));
-                
-                // خوارزمية Fisher-Yates للخلط العشوائي
                 for (let j = shuffledOpts.length - 1; j > 0; j--) {
                     let k = Math.floor(Math.random() * (j + 1));
                     let temp = shuffledOpts[j];
                     shuffledOpts[j] = shuffledOpts[k];
                     shuffledOpts[k] = temp;
                 }
-
                 let finalOpts = shuffledOpts.map(item => item.text);
                 let newCorrectIndex = shuffledOpts.findIndex(item => item.isCorrect);
-
                 questions.push({
                     id: i,
                     text: `السؤال الامتحاني (${i}): ${originalCorrectText ? qText.split(': ')[1] || qText : qText}`,
@@ -849,33 +800,27 @@
             }
             return questions;
         }
-
         function startQuiz(subId) {
             currentSubjectId = subId;
             currentQuestions = generateQuestions(subId);
             currentIndex = 0;
             userAnswers = {};
-
             const subObj = subjects.find(s => s.id === subId);
             document.getElementById('current-subject-title').innerText = subObj.name;
             document.getElementById('total-q-label').innerText = subObj.count;
             document.getElementById('total-q-num').innerText = subObj.count;
             document.getElementById('current-subject-icon').className = `w-12 h-12 rounded-xl flex items-center justify-center text-2xl text-white shadow bg-gradient-to-tr ${subObj.color}`;
             document.getElementById('current-subject-icon').innerHTML = `<i class="fa-solid ${subObj.icon}"></i>`;
-
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('completion-view').classList.add('hidden');
             document.getElementById('quiz-view').classList.remove('hidden');
             document.getElementById('header-nav-btn').classList.remove('hidden');
-
             updateLiveCounters();
             renderQuestion();
         }
-
         function updateLiveCounters() {
             let correctCount = 0;
             let incorrectCount = 0;
-
             for (let idx in userAnswers) {
                 let ans = userAnswers[idx];
                 let q = currentQuestions[idx];
@@ -885,26 +830,20 @@
                     incorrectCount++;
                 }
             }
-
             document.getElementById('live-correct-count').innerText = correctCount;
             document.getElementById('live-incorrect-count').innerText = incorrectCount;
         }
-
         function renderQuestion() {
             const q = currentQuestions[currentIndex];
             document.getElementById('current-q-num').innerText = currentIndex + 1;
             document.getElementById('question-text').innerHTML = q.text;
-
             const optContainer = document.getElementById('options-container');
             optContainer.innerHTML = '';
-
             const hasAnswered = userAnswers[currentIndex] !== undefined;
             const selectedOpt = userAnswers[currentIndex];
-
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 let btnClasses = "w-full text-right p-4 rounded-2xl border font-semibold text-sm md:text-base transition duration-200 flex items-center justify-between ";
-
                 if (hasAnswered) {
                     if (idx === q.correct) {
                         btnClasses += "bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm";
@@ -918,9 +857,7 @@
                     btnClasses += "bg-white border-slate-200 text-slate-700 hover:border-indigo-500 hover:bg-indigo-50/30 shadow-sm";
                     btn.onclick = () => selectAnswer(idx);
                 }
-
                 btn.className = btnClasses;
-                
                 let iconHtml = '';
                 if (hasAnswered) {
                     if (idx === q.correct) {
@@ -929,11 +866,9 @@
                         iconHtml = '<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>';
                     }
                 }
-
                 btn.innerHTML = `<span>${opt}</span> ${iconHtml}`;
                 optContainer.appendChild(btn);
             });
-
             document.getElementById('prev-btn').disabled = currentIndex === 0;
             const nextBtn = document.getElementById('next-btn');
             if (currentIndex === currentQuestions.length - 1) {
@@ -942,10 +877,8 @@
                 nextBtn.innerHTML = `التالي <i class="fa-solid fa-arrow-left"></i>`;
             }
         }
-
         function selectAnswer(optIdx) {
             userAnswers[currentIndex] = optIdx;
-            
             const q = currentQuestions[currentIndex];
             if (optIdx === q.correct) {
                 confetti({
@@ -954,11 +887,9 @@
                     origin: { y: 0.6 }
                 });
             }
-
             updateLiveCounters();
             renderQuestion();
         }
-
         function nextQuestion() {
             if (currentIndex < currentQuestions.length - 1) {
                 currentIndex++;
@@ -967,14 +898,12 @@
                 showCompletion();
             }
         }
-
         function prevQuestion() {
             if (currentIndex > 0) {
                 currentIndex--;
                 renderQuestion();
             }
         }
-
         function showCompletion() {
             let correctCount = 0;
             currentQuestions.forEach((q, idx) => {
@@ -982,14 +911,12 @@
                     correctCount++;
                 }
             });
-
             document.getElementById('final-total').innerText = currentQuestions.length;
             document.getElementById('final-correct').innerText = correctCount;
 
             document.getElementById('quiz-view').classList.add('hidden');
             document.getElementById('completion-view').classList.remove('hidden');
         }
-
         function restartQuiz() {
             userAnswers = {};
             currentIndex = 0;
@@ -998,14 +925,102 @@
             updateLiveCounters();
             renderQuestion();
         }
-
         function returnToHome() {
             initHome();
         }
-
         window.onload = function() {
             initHome();
         };
     </script>
+
+<!-- استدعاء مكتبات Firebase للويب -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات مشروعك في Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCugm8mwLKrLWC8uffSZZIeit26bp0IUtM",
+            authDomain: "my-free-test-learn.firebaseapp.com",
+            projectId: "my-free-test-learn",
+            storageBucket: "my-free-test-learn.firebasestorage.app",
+            messagingSenderId: "370959108353",
+            appId: "1:370959108353:web:738e326cf52826908a3300",
+            measurementId: "G-Z3QQZCZF51"
+        };
+
+        // تهيئة النظام وربط قاعدة البيانات
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // دالة التحقق من الكود مع رسائل خطأ دقيقة
+        async function verifyAccessCodeFirebase() {
+            const inputVal = document.getElementById('access-code-input').value.trim();
+            const errDiv = document.getElementById('login-error');
+
+            if (!inputVal) {
+                errDiv.style.color = "#e11d48"; // لون أحمر
+                errDiv.innerText = "الرجاء إدخال كود التفعيل!";
+                errDiv.classList.remove('hidden');
+                return;
+            }
+
+            errDiv.style.color = "#2563eb"; // لون أزرق أثناء البحث
+            errDiv.innerText = "جاري التحقق من قاعدة البيانات...";
+            errDiv.classList.remove('hidden');
+
+            try {
+                const keysRef = collection(db, "keys");
+                const q = query(keysRef, where("keyValue", "==", inputVal));
+                const querySnapshot = await getDocs(q);
+
+                // الحالة الأولى: الكود غير موجود نهائياً في القاعدة (خطأ)
+                if (querySnapshot.empty) {
+                    errDiv.style.color = "#e11d48";
+                    errDiv.innerText = "❌ الكود غير صحيح، يرجى التأكد من المدخلات أو طلب كود جديد.";
+                    return;
+                }
+
+                let keyDocSnap = null;
+                querySnapshot.forEach((document) => {
+                    keyDocSnap = document;
+                });
+
+                const keyData = keyDocSnap.data();
+                const keyDocId = keyDocSnap.id;
+
+                // الحالة الثانية: الكود موجود لكنه مستخدم من قبل (isActive معطلة)
+                if (keyData.isActive === false) {
+                    errDiv.style.color = "#ea580c"; // لون برتقالي تحذيري
+                    errDiv.innerText = "⚠️ عذراً، هذا المفتاح مستخدم مسبقاً من قبل شخص آخر ولا يمكن إعادة استخدامه!";
+                    return;
+                }
+
+                // الحالة الثالثة: الكود صحيح وغير مستخدم -> قفله والدخول للمنصة
+                const selectedKeyRef = doc(db, "keys", keyDocId);
+                await updateDoc(selectedKeyRef, {
+                    isActive: false
+                });
+
+                localStorage.setItem('bound_device_code', inputVal);
+                document.getElementById('login-view').classList.add('hidden');
+
+            } catch (error) {
+                console.error("خطأ في الاتصال:", error);
+                errDiv.style.color = "#e11d48";
+                errDiv.innerText = "حدث خطأ في الاتصال بقاعدة البيانات. تأكد من اتصالك بالإنترنت.";
+            }
+        }
+
+        // ربط الزر برمجياً
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.querySelector('button[onclick*="verifyAccessCode"]') || document.getElementById('login-btn');
+            if (loginBtn) {
+                loginBtn.removeAttribute('onclick');
+                loginBtn.addEventListener('click', verifyAccessCodeFirebase);
+            }
+        });
+    </script>
+
 </body>
 </html>
