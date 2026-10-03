@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // يتطلب أن يكون معرّف كل وثيقة في keys هو الكود نفسه (بحروف كبيرة)
+    match /keys/{code} {
+      allow get: if true;
+      allow list: if false;
+      allow update: if resource.data.isActive == true
+        && request.resource.data.isActive == false
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isActive', 'usedBy', 'usedAt']);
+      allow create, delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

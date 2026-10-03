@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="اختبارات تدريبية لشهادة التعليم الأساسي (التاسع) في سوريا مع تصحيح فوري ومراجعة الأخطاء">
+    <meta name="theme-color" content="#4f46e5">
+    <script>try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}</script>
     <title>منصة الاختبار السريع لشهادة التاسع في سوريا</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,7 +43,7 @@
         .animate-shake {
             animation: shake 0.4s ease-in-out;
         }
-        /* ضع كود التنسيقات هنا */
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
         .no-scrollbar::-webkit-scrollbar {
             height: 6px;
         }
@@ -56,6 +59,35 @@
             background: #94a3b8;
         }
 
+        /* ===== الوضع الليلي ===== */
+        html.dark { color-scheme: dark; }
+        html.dark body { background: #0b1220 !important; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .bg-white\/85 { background-color: rgba(15,23,42,.88); }
+        .dark .bg-slate-50, .dark .bg-slate-100 { background-color: #273449; }
+        .dark .hover\:bg-slate-100:hover, .dark .hover\:bg-slate-200:hover { background-color: #334155; }
+        .dark .bg-slate-300 { background-color: #475569; }
+        .dark .text-slate-900, .dark .text-slate-800 { color: #f1f5f9; }
+        .dark .text-slate-700, .dark .text-slate-600 { color: #cbd5e1; }
+        .dark .text-slate-500 { color: #94a3b8; }
+        .dark .border-slate-100, .dark .border-slate-200, .dark .border-slate-300 { border-color: #334155; }
+        .dark .bg-indigo-50, .dark .bg-indigo-100, .dark .bg-indigo-50\/30, .dark .hover\:bg-indigo-50\/30:hover, .dark .hover\:bg-indigo-100:hover { background-color: rgba(99,102,241,.2); }
+        .dark .text-indigo-700, .dark .text-indigo-600 { color: #a5b4fc; }
+        .dark .text-indigo-900 { color: #c7d2fe; }
+        .dark .border-indigo-100 { border-color: rgba(99,102,241,.35); }
+        .dark .bg-emerald-50, .dark .hover\:bg-emerald-100:hover { background-color: rgba(16,185,129,.16); }
+        .dark .text-emerald-600, .dark .text-emerald-700, .dark .text-emerald-800 { color: #6ee7b7; }
+        .dark .border-emerald-200, .dark .border-emerald-300, .dark .border-emerald-500 { border-color: rgba(16,185,129,.45); }
+        .dark .bg-rose-50, .dark .bg-rose-50\/40, .dark .bg-rose-100, .dark .hover\:bg-rose-100:hover, .dark .hover\:bg-red-50:hover { background-color: rgba(244,63,94,.16); }
+        .dark .text-rose-600, .dark .text-rose-700, .dark .text-rose-800, .dark .hover\:text-red-600:hover { color: #fda4af; }
+        .dark .border-rose-100, .dark .border-rose-300, .dark .border-rose-500 { border-color: rgba(244,63,94,.45); }
+        .dark .bg-sky-50, .dark .hover\:bg-sky-100:hover { background-color: rgba(14,165,233,.16); }
+        .dark .text-sky-700 { color: #7dd3fc; }
+        .dark .border-sky-200 { border-color: rgba(14,165,233,.4); }
+        .dark input { background: #0f172a; color: #f1f5f9; }
+        .dark .no-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .dark .no-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+        .knob { background: #fff !important; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-50 via-slate-50 to-blue-100 min-h-screen text-slate-800 flex flex-col">
@@ -69,8 +101,8 @@
                 <p class="text-xs text-slate-500 font-semibold">أدخل كود التفعيل الخاص بك (10 خانات مختلطة)</p>
             </div>
             <div class="space-y-4">
-                <input type="text" id="access-code-input" placeholder="أدخل كود التفعيل الخاص بك " maxlength="10" class="w-full text-center tracking-widest font-mono uppercase px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-lg font-bold">
-                <button onclick="verifyAccessCode()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold shadow-lg transition">دخول المنصة</button>
+                <input type="text" id="access-code-input" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="أدخل كود التفعيل الخاص بك " maxlength="10" class="w-full text-center tracking-widest font-mono uppercase px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-lg font-bold">
+                <button id="login-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold shadow-lg transition">دخول المنصة</button>
                 <div id="login-error" class="text-rose-600 text-xs font-bold hidden">الكود غير صالح، مستخدم مسبقاً، أو غير مسجل!</div>
             </div>
             <div class="pt-4 border-t border-slate-100 space-y-3">
@@ -98,11 +130,32 @@
                     <p class="text-xs text-slate-500 font-semibold">شهادة التعليم الأساسي ( التاسع ) - سوريا</p>
                 </div>
             </div>
+            <div class="flex items-center gap-2">
             <div id="header-nav-btn" class="hidden">
                 <button onclick="returnToHome()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-2">
                     <i class="fa-solid fa-house"></i> الرئيسية
                 </button>
             </div>
+            <button id="theme-btn" type="button" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600"><i class="fa-solid fa-moon"></i></button>
+            <div class="relative">
+                <button id="menu-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="الخيارات" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600"><i class="fa-solid fa-gear"></i></button>
+                <div id="options-menu" class="hidden absolute left-0 top-full mt-2 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl p-2 z-50">
+                    <div class="flex items-center justify-between gap-3 px-2 py-2 text-sm font-semibold text-slate-700"><span>الوضع الليلي</span>
+                        <button id="sw-dark" type="button" role="switch" aria-checked="false" aria-label="الوضع الليلي" class="relative w-11 h-6 rounded-full bg-slate-300 transition shrink-0"><span class="knob absolute top-0.5 right-0.5 w-5 h-5 rounded-full shadow transition"></span></button></div>
+                    <div class="flex items-center justify-between gap-3 px-2 py-2 text-sm font-semibold text-slate-700"><span>المؤثرات (الكونفيتي)</span>
+                        <button id="sw-effects" type="button" role="switch" aria-checked="true" aria-label="المؤثرات" class="relative w-11 h-6 rounded-full bg-slate-300 transition shrink-0"><span class="knob absolute top-0.5 right-0.5 w-5 h-5 rounded-full shadow transition"></span></button></div>
+                    <div class="flex items-center justify-between gap-3 px-2 py-2 text-sm font-semibold text-slate-700"><span>حجم الخط</span>
+                        <div class="flex items-center gap-1">
+                            <button id="font-minus" type="button" aria-label="تصغير الخط" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 font-black disabled:opacity-40">−</button>
+                            <span id="font-label" class="w-10 text-center text-xs text-slate-500">100%</span>
+                            <button id="font-plus" type="button" aria-label="تكبير الخط" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 font-black disabled:opacity-40">+</button>
+                        </div></div>
+                    <div class="border-t border-slate-100 mt-1 pt-1">
+                        <button id="reset-progress" type="button" class="w-full text-right px-2 py-2 rounded-xl text-sm font-semibold text-rose-600 hover:bg-red-50 transition"><i class="fa-solid fa-trash-can ml-2"></i> مسح نتائجي المحفوظة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </header>
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 md:py-10"> 
@@ -150,6 +203,7 @@
             <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6 relative overflow-hidden">
                 <div id="question-text" class="text-lg md:text-xl font-bold text-slate-900 leading-relaxed min-h-[4rem] flex items-center"></div>
                 <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"></div>
+                <div id="explanation" class="hidden bg-indigo-50 border border-indigo-100 text-indigo-900 rounded-2xl p-4 text-sm leading-relaxed"></div>
 
                 <!-- أزرار السابق / التالي تحت السؤال -->
                 <div class="flex items-center justify-between pt-4 border-t border-slate-100">
@@ -167,8 +221,9 @@
                 <i class="fa-solid fa-award"></i>
             </div>
             <div class="space-y-2">
-                <h3 class="text-2xl font-black text-slate-900">أنهيت اختبار المادة بنجاح!</h3>
-                <p class="text-slate-600 text-sm">لقد اطلعت على جميع الأسئلة الخاصة بالمادة. يمكنك إعادة الاختبار أو العودة لقائمة المواد.</p>
+                <h3 class="text-2xl font-black text-slate-900">نتيجتك في الاختبار</h3>
+                <div id="final-percent" class="text-5xl font-black text-indigo-600"></div>
+                <p id="final-msg" class="text-slate-600 text-sm"></p>
             </div>
             <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex justify-around">
                 <div>
@@ -186,6 +241,7 @@
                     <div class="text-xs text-slate-500 font-semibold">الإجابات الخاطئة</div>
                 </div>
             </div>
+            <button id="retry-wrong-btn" onclick="retryWrong()" class="hidden w-full bg-rose-50 hover:bg-rose-100 text-rose-700 py-3 rounded-xl font-bold text-sm transition"><i class="fa-solid fa-rotate-left ml-1"></i> أعد الأسئلة الخاطئة فقط</button>
             <div class="flex gap-3">
                 <button onclick="restartQuiz()" class="flex-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 py-3 rounded-xl font-bold text-sm transition">
                     <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الاختبار
@@ -204,864 +260,12 @@
             منصة الاختبار السريع لشهادة التعليم الأساسي الصف التاسع في سوريا <br> by: Eng.Yousef
         </div>
     </footer>
-    <script>
-       
-        function verifyAccessCode() {
-            const inputVal = document.getElementById('access-code-input').value.trim().toUpperCase();
-            const errDiv = document.getElementById('login-error');
-            const boundDeviceCode = localStorage.getItem('bound_device_code');
-            if (boundDeviceCode) {
-                if (boundDeviceCode === inputVal) {
-                    document.getElementById('login-view').classList.add('hidden');
-                    return;
-                } else {
-                    errDesc("هذا الجهاز مرتبط بكود آخر مسبقاً ولا يمكن استخدام كود مختلف!");
-                    return;
-                }
-            }
-            const isValid = _encodedCodes.some(code => atob(code).toUpperCase() === inputVal);
-            if (isValid) {
-                localStorage.setItem('bound_device_code', inputVal);
-                document.getElementById('login-view').classList.add('hidden');
-            } else {
-                errDesc("الكود غير صالح أو غير مسجل في النظام!");
-                errDiv.classList.remove('hidden');
-            }
-        }
-        function errDesc(msg) {
-            const errDiv = document.getElementById('login-error');
-            errDiv.innerText = msg;
-            errDiv.classList.remove('hidden');
-        }
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('bound_device_code')) {
-                document.getElementById('login-view').classList.add('hidden');
-            }
-        });
-        const subjects = [
-            { id: 'science', name: 'علوم', count: 100, icon: 'fa-atom', color: 'from-emerald-500 to-teal-600' },
-            { id: 'physics', name: 'فيزياء', count: 25, icon: 'fa-bolt', color: 'from-amber-500 to-orange-600' },
-            { id: 'chemistry', name: 'كيمياء', count: 25, icon: 'fa-flask', color: 'from-blue-500 to-indigo-600' },
-            { id: 'history', name: 'تاريخ', count: 25, icon: 'fa-landmark', color: 'from-rose-500 to-red-600' },
-            { id: 'geography', name: 'جغرافيا', count: 25, icon: 'fa-globe', color: 'from-cyan-500 to-blue-600' },
-            { id: 'algebra', name: 'قوانين رياضيات جبر', count: 25, icon: 'fa-square-root-variable', color: 'from-purple-500 to-indigo-600' },
-            { id: 'geometry', name: 'قوانين رياضيات هندسة', count: 25, icon: 'fa-shapes', color: 'from-violet-500 to-purple-600' },
-            { id: 'arabic', name: 'لغة عربية', count: 50, icon: 'fa-book-open', color: 'from-pink-500 to-rose-600' },
-            { id: 'english', name: 'لغة إنجليزية', count: 50, icon: 'fa-language', color: 'from-sky-500 to-blue-600' },
-            { id: 'french', name: 'لغة فرنسية', count: 50, icon: 'fa-comment-dots', color: 'from-fuchsia-500 to-pink-600' },
-            { id: 'islamic', name: 'تربية إسلامية', count: 25, icon: 'fa-mosque', color: 'from-emerald-600 to-green-700' }
-        ];
-        let currentSubjectId = null;
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let userAnswers = {};
-        function initHome() {
-            const grid = document.getElementById('subjects-grid');
-            grid.innerHTML = '';
-            subjects.forEach(sub => {
-                const card = document.createElement('div');
-                card.className = `bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 cursor-pointer flex flex-col justify-between group`;
-                card.onclick = () => startQuiz(sub.id);
-                card.innerHTML = `
-                    <div class="space-y-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr ${sub.color} text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition duration-300">
-                            <i class="fa-solid ${sub.icon}"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-slate-900">${sub.name}</h3>
-                            <p class="text-xs text-slate-500 mt-1">${sub.count} سؤال مختلف تماماً</p>
-                        </div>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-indigo-600 font-bold text-xs">
-                        <span>ابدأ الاختبار</span>
-                        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition"></i>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-            document.getElementById('header-nav-btn').classList.add('hidden');
-            document.getElementById('home-view').classList.remove('hidden');
-            document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('completion-view').classList.add('hidden');
-        }
-        function generateQuestions(subjectId) {
-            const subObj = subjects.find(s => s.id === subjectId);
-            const totalCount = subObj ? subObj.count : 25;
-            const questions = [];
-            for (let i = 1; i <= totalCount; i++) {
-                let qText = "";
-                let options = [];
-                let correct = 0;
-                if (subjectId === 'science') {
-                    const pool = [
-                        { q: "العضو الذي يعد مركز الأفعال الإرادية والوعي والذاكرة هو:", opts: ["المخ ", "المخيخ", "البصلة السيسائية", "النخاع الشوكي "], corr: 0 },
-                        { q: "يسكن النخاع الشوكي عند الإنسان داخل:", opts: ["القناة الفقرية", "القناة الهضمية", "الصدر", "القحف"], corr: 0 },
-                        { q: "ترتيب أغشية السحايا التي تحمي المراكز العصبية من الخارج إلى الداخل هو:", opts: ["الأم الجافية - العنكبوتية - الأم الحنون ", " الأم الحنون - العنكبوتية - الأم الجافية", "العنكبوتية - الأم الجافية - الأم الحنون", "الأم الجافية - الأم الحنون - العنكبوتية "], corr: 0 },
-                        { q: "تتوزع المادتان الرمادية والبيضاء في النخاع الشوكي بحيث تكون:", opts: [" الرمادية مركزية (حرف H) والبيضاء محيطية", "البيضاء مركزية والرمادية محيطية", "المادتان مختلطتان بالكامل", "الرمادية في الأعلى والبيضاء في الأسفل"], corr: 0 },
-                        { q: "وحدة البناء والوظيفة الأساسية في الجهاز العصبي هي:", opts: ["العصبون (الخلية العصبية)", "الليف العضلي ", "النفرون ", "الخلية الدبقية "], corr: 0 },
-                        { q: "الوظيفة الأساسية لغمد النخاعين المحيط بمحوار العصبون هي:", opts: [" حماية المحوار وزيادة سرعة السيالة العصبية", " إبطاء السيالة العصبية ", " إفراز الهرمونات", "توليد خلايا دم جديدة"], corr: 0 },
-                        { q: "منطقة الاتصال الوظيفي بين عصبون وعصبون آخر أو خلية مستهدفة تسمى:", opts: [" المشبك", "المحوار ", " العقدة العصبية", "الجسيم الحسي"], corr: 0 },
-                        { q: "ينتقل السيال العصبي داخل العصبون الواحد في اتجاه:", opts: ["من الاستطالات الهيولية إلى جسم الخلية ثم المحوار  ", "من المحوار إلى الاستطالات  ", "بشكل عشوائي في كل الاتجاهات ", "من التفرعات الانتهائية مباشرة إلى جسم الخلية"], corr: 0 },
-                        { q: "المركز العصبي المسؤول عن ضبط توازن الجسم وتنسيق التقلصات العضلية هو:", opts: [" المخيخ", " البصلة السيسائية", " المخ", "الوطاء"], corr: 0 },
-                        { q: "توجد مراكز الأفعال الانعكاسية الحياتية كالتنفس والبلع وسرعة ضربات القلب في:", opts: [" البصلة السيسائية", "المخيخ ", "الجسم الثفني ", "الغدة النخامية"], corr: 0 },
-                        { q: "يقوم النخاع الشوكي وظيفياً بدور:", opts: ["مركز للأفعال الانعكاسية (اللاإرادية) وطريق لنقل السيالات ", "مركز للأفعال الإرادية فقط ", " إفراز هرمون النمو ", "تفسير الأحاسيس البصرية فقط"], corr: 0 },
-                        { q: "المسار الذي تسلكه السيالة العصبية في الفعل الانعكاسي يسمى:", opts: [" القوس الانعكاسية", " السيالة الصاعدة", " المنعكس الشرطي", "العصب المختلط"], corr: 0 },
-                        { q: "تسمى الغدد التي تصب مفرزاتها (الهرمونات) في الدم مباشرة دون قنوات بـ:", opts: ["الغدد الصم (اللاقنوية) ", "الغدد اللعابية ", "الغدد العرقية ", "الغدد الهضمية"], corr: 0 },
-                        { q: "تسمى الغدة النخامية بـ (سيدة الغدد) لأنها تقع أسفل الدماغ و:", opts: ["تنظم نشاط معظم الغدد الصم الأخرى ", " تفرز اللعاب", "تفرز الأنسولين ", "تفرز العصارة الصفراوية"], corr: 0 },
-                        { q: "الهرمون المسؤول عن خفض نسبة السكر في الدم هو:", opts: ["الأنسولين ", "الغلواكاغون ", " الأدرينالين", "الثايروكسين"], corr: 0 },
-                        { q: "تفرز جزر لانغرهانز هرمونات تنظيم السكر، وتوجد هذه الجزر في غدة:", opts: [" البنكرياس", "الدرقية ", "الكظر ", "النخامية"], corr: 0 },
-                        { q: "يؤدي نقص إفراز هرمون النمو في سن الطفولة إلى حالة:", opts: ["القزامة ", "العملاقة ", "التضخم الجحوظي ", "السكري"], corr: 0 },
-                        { q: "تفرز الغدة الدرقية هرمون الثايروكسين، وتقع في الجسم:", opts: [" في مقدمة الرقبة أمام الرغامى", "أسفل الدماغ ", "فوق الكلية ", "في التجويف البطني"], corr: 0 },
-                        { q: "الهرمون الذي يفرز في حالات الطوارئ والخوف لزيادة ضربات القلب والضغط هو:", opts: [" الأدرينالين", " التستوستيرون", "البروجسترون ", "الميلاتونين"], corr: 0 },
-                        { q: "الطبقة الداخلية للعين التي تحتوي على المستقبلات البصرية (العصي والمخاريط) هي:", opts: [" الشبكية", "الصلبة", " المشيمية", "القزحية"], corr: 0 },
-                        { q: "المستقبلات البصرية المسؤولة عن الرؤية في الضوء الخافت (بالأبيض والأسود) هي:", opts: [" العصي", " المخاريط", "  الخلايا الشمية", "براعم التذوق"], corr: 0 },
-                        { q: "يتم تصحيح عيب الرؤية المعروف بـ ( مد البصر ) باستخدام نظارات ذات عدسات:", opts: [" محدبة", " مقعرة", "أسطوانية ", "مستوية"], corr: 0 },
-                        { q: "أحد الأوساط التالية لا يعتبر من الأوساط الشفافة في العين:", opts: [" المشيمية", " القرنية الشفافة", " الجسم البلوري", "الخلط الزجاجي"], corr: 0 },
-                        { q: "تتألف عظيمات السمع الثلاث في الأذن الوسطى بالترتيب من الخارج للداخل:", opts: [" المطرقة - السندان - الركاب", " الركاب - السندان - المطرقة", "السندان - المطرقة - الركاب ", " المطرقة - الركاب - السندان"], corr: 0 },
-                        { q: "تقع مستقبلات السمع (عضو كورتي) في الأذن الداخلية وتحديداً في:", opts: [" القوقعة", "الدهليز ", "القنوات الهلالية ", "مجرى السمع الخارجي"], corr: 0 },
-                        { q: "القناة التي تصل الأذن الوسطى بالبلعوم لموازنة الضغط على غشاء الطبل هي:", opts: ["قناة استاش ", " القناة الصفراوية", " القناة الدمعية ", "القناة الفقرية"], corr: 0 },
-                        { q: "توجد الخلايا الشمية الحساسة للروائح في الأنف ضمن:", opts: ["الغشاء المخاطي الأصفر في أعلى التجويف الأنفي ", "الغشاء المخاطي الأحمر السفلي ", "الجيوب الأنفية فقط ", "منخري الأنف الخارجيين"], corr: 0 },
-                        { q: "تنتشر براعم التذوق على سطح اللسان وتتأثر بالمواد الكيميائية الذائبة في:", opts: [" اللعاب", "الدم ", "اللمف ", "الماء الجوي"], corr: 0 },
-                        { q: "الطبقة الخارجية للجلد وهي طبقة غير وعائية تتجدد باستمرار هي:", opts: [" البشرة", " الأدمة", "النسيج تحت الجلدي ", " الغدد العرقية"], corr: 0 },
-                        { q: "العضو الذي يعمل بالتعاون مع المخيخ لضبط توازن الجسم الحركي هو:", opts: ["الأذن الداخلية (الدهليز والقنوات الهلالية) ", " العين", " النخاع الشوكي", "عظام الساق"], corr: 0 },
-                        { q: "يتم إنتاج النطاف (الأمشاج الذكرية) عند الإنسان داخل:", opts: [" الأنابيب المنوية في الخصية", " البربخ", " الحويصل المنوي", "غدة البروستات"], corr: 0 },
-                        { q: "الخلايا البينية (خلايا ليدغ) الموجودة في الخصية مسؤولة عن إفراز:", opts: [" هرمون التستوستيرون", "النطاف ", " هرمون الأنسولين", "هرمون الإستروجين"], corr: 0 },
-                        { q: "المكان الذي تنضج فيه النطاف وتخزن وتكتسب فيه الحركة هو:", opts: [" البربخ", " الأسهر", " الإحليل", "المبيض"], corr: 0 },
-                        { q: "الهرمونات الأنثوية (الإستروجين والبروجسترون) يتم إفرازها من:", opts: ["المبيضين ", "الرحم ", "قناتي فالوب ", "الغدة الكظرية"], corr: 0 },
-                        { q: "تحدث عملية الإخصاب (اللقاح) عند الإنسان طبيعياً في:", opts: ["الثلث الأول من قناة ناقلة للبيوض (فالوب) ", " جوف الرحم", " المبيض", "المهبل"], corr: 0 },
-                        { q: "الإخصاب هو عملية حيوية ينتج عنها اندماج:", opts: ["نواة النطفة مع نواة البويضة لتشكيل بيضة ملقحة ", "نطفة مع نطفة أخرى ", " البويضة بالجدار الرحمي مباشر", "الهرمونات الذكرية بالأنثوية"], corr: 0 },
-                        { q: "عدد الكروموسومات (الصبغيات) في الأمشاج البشرية (النطاف أو البويضات) هو:", opts: ["23 كروموسوم (1n) ", " 46 كروموسوم", " 92 كروموسوم", "12 كروموسوم"], corr: 0 },
-                        { q: "العضو العضلي المهيأ لاستقبال الجنين ونموه طوال فترة الحمل هو:", opts: ["الرحم ", " المبيض", " المهبل", "المثانة"], corr: 0 },
-                        { q: "البنية الوعائية التي تؤمن الغذاء والأكسجين للجنين من دم الأم دون اختلاطهما هي:", opts: ["المشيمة ", " كيس أمنيون", " الحبل السري فقط", "عنق الرحم"], corr: 0 },
-                        { q: "تبلغ مدة الحمل الطبيعية عند المرأة حوالي:", opts: [" 9 أشهر", "7 أشهر ", " 12 شهراً", "5 أشهر"], corr: 0 },
-                        { q: "التكاثر الذي ينتج أفراداً متماثلة تماماً للفرد الأبوي دون أمشاج يسمى:", opts: ["تكاثر لا جنسي ", " تكاثر جنسي", "إخصاب خلطي ", "اقتران صبغي"], corr: 0 },
-                        { q: "يتكاثر حيوان البرامسيوم لا جنسياً عن طريق:", opts: ["الانشطار الثنائي العرضي ", "التبرعم ", " الافتسال", "الأبواغ"], corr: 0 },
-                        { q: "يتكاثر فطر خميرة البيرة لا جنسياً عن طريق:", opts: [" التبرعم", "الانشطار الثنائي ", " الافتسال", "التطعيم"], corr: 0 },
-                        { q: "من طرق التكاثر الخضري الاصطناعي التي يجري فيها نقل جزء من نبات وتثبيته على نبات آخر:", opts: [" التطعيم", "الترقيد ", "الافتسال ", " التبرعم الحيواني"], corr: 0 },
-                        { q: "أعضاء التذكير في الزهرة والتي تنتج حبات الطلع هي:", opts: [" الأسدية (المآبر)", " المدقة", "البتلات ", "الكأس"], corr: 0 },
-                        { q: "عضو التأنيث في الزهرة والذي يحتوي في أسفله على المبيض هو:", opts: ["المدقة ", "السداة ", " السبلات", "الخيط"], corr: 0 },
-                        { q: "انتقال حبات الطلع من مآبر الأسدية إلى مياسم المدقات يسمى عملية:", opts: ["التأبير ", " الإخصاب", "الإنبات ", "التلقيح الذاتي الحتمي"], corr: 0 },
-                        { q: "عندما تنتقل حبة الطلع من مأبر زهرة إلى ميسم زهرة أخرى على نبات آخر من النوع نفسه يسمى:", opts: [" تأبير خلطي", "تأبير ذاتي ", "  إخصاب داخلي", " تكاثر خضري"], corr: 0 },
-                        { q: "تتحول البيضة الملقحة في النباتات الزهرية بعد الإخصاب إلى:", opts: ["جنين داخل البذرة ", "ثمرة ", "زهرة جديدة مباشرة ", "جذير"], corr: 0 },
-                        { q: "ينمو جدار المبيض في الزهرة بعد الإخصاب ليتحول إلى:", opts: ["الثمرة ", " البذرة", " الأوراق", "الجذع"], corr: 0 },
-                        { q: "المسبب المرضي لمرض الكوليرا هو:", opts: ["بكتيريا ", " فيروس", " طفيلي الأميبا", "فطر مجهري"], corr: 0 },
-                        { q: "ينتقل مرض الملاريا إلى الإنسان عن طريق لدغة:", opts: ["أنثى بعوضة الأنوفيل ", " ذبابة تسيتسي", " القمل", "البراغيث"], corr: 0 },
-                        { q: "مرض نقص المناعة المكتسب (الإيدز) يتسبب عن طريق:", opts: [" HIV فيروس  ", " بكتيريا عصوية", "نقص الحديد ", "التعرض للأشعة"], corr: 0 },
-                        { q: "مادة كيميائية تفرزها بعض الأحياء الدقيقة تستخدم للقضاء على البكتيريا فقط هي:", opts: [" المضاد الحيوي", " اللقاح", " المصل", "الهرمون"], corr: 0 },
-                        { q: "مبدأ عمل اللقاح يعتمد على حقن الجسم بـ:", opts: ["مسببات أمراض ميتة أو مضعفة لتحفيز المناعة ", " أجسام مضادة جاهزة", " مضادات حيوية قوية", "فيتامينات مركزة"], corr: 0 },
-                        { q: "المناعة التي يكتسبها الجسم فور الشفاء من مرض أصيب به طبيعياً تسمى:", opts: [" مناعة طبيعية نشطة", "مناعة اصطناعية ", " مناعة منفعلة بالمصل", "مناعة مؤقتة بالدواء"], corr: 0 },
-                        { q: "تراكم الدهون والكوليسترول على الجدران الداخلية للشرايين يسبب مرض:", opts: ["التصلب العصيدي ", "فقر الدم ", "الفشل الكلوي ", "السكري"], corr: 0 },
-                        { q: "خلايا الدم المسؤولة عن نقل الأكسجين وثاني أكسيد الكربون بفضل الهيموغلوبين هي:", opts: [" الخلايا الحمراء", " الخلايا البيضاء", "  الصفائح الدموية", "الخلايا اللمفاوية"], corr: 0 },
-                        { q: "تتمثل الوظيفة الأساسية لخلايا الدم البيضاء في:", opts: ["الدفاع عن الجسم ضد الجراثيم والفيروسات ", "تخثر الدم ", " نقل الغذاء الذائب", "إعطاء الدم لونه الأحمر"], corr: 0 },
-                        { q: "البنية الدموية التي لها دور أساسي في تخثر الدم وإيقاف النزيف عند الجروح هي:", opts: [" الصفائح الدموية", "البلازما ", "  الخلايا الحمراء", "الهيموغلوبين"], corr: 0 },
-                        { q: "الحالة المرضية الناتجة عن نقص خلايا الدم الحمراء أو نقص الهيموغلوبين تسمى:", opts: [" فقر الدم", " التصلب العصيدي", "  ابيضاض الدم", "ضغط الدم المرتفع"], corr: 0 },
-                        { q: "وحدة الترشيح الوظيفية الدقيقة داخل الكلية والتي تنقي الدم تسمى:", opts: [" النفرون", "العصبون ", " الحويصل الهوائي", "الحالب"], corr: 0 },
-                        { q: "يلجأ الأطباء لعملية الديلزة (غسيل الكلى الاصطناعي) عند إصابة المريض بـ:", opts: [" الفشل الكلوي", " القرحة المعدية", "حصى المرارة ", "فقر الدم"], corr: 0 },
-                        { q: "الهرمون المانع لإدرار البول (ADH) يعمل على :", opts: ["إعادة امتصاص الماء في الكلية لتقليل حجم البول ", " زيادة كمية البول", " إفراز الأملاح بكثرة", "خفض سكر الدم"], corr: 0 },
-                        { q: "يتكون النظام البيئي المتكامل من:", opts: [" تفاعل كائنات حية مع مكونات غير حية", " كائنات حية فقط", " مكونات غير حية فقط", "النباتات والحيوانات فقط"], corr: 0 },
-                        { q: "تعتبر النباتات الخضراء في السلسلة الغذائية كائنات:", opts: ["منتجة  ", " مستهلكة أولية", " محللة", "طفيلية"], corr: 0 },
-                        { q: "الفطريات والبكتيريا التي تتغذى على بقايا الجثث وتعيد العناصر للتربة تصنف كـ:", opts: ["محللات ", "منتجات ", " مستهلكات ثانوية", "آكلات لحوم"], corr: 0 },
-                        { q: "الارتفاع التدريجي في درجة حرارة الغلاف الجوي للأرض بسبب غازات الدفيئة يسمى:", opts: [" الاحتباس الحراري", " المطر الحمضي", " التنوع الحيوي", "تلوث التربة"], corr: 0 },
-                        { q: "المادة الكيميائية الأساسية المسؤولة عن تآكل وثقب طبقة الأوزون هي:", opts: [" مركبات الكلوروفلوروكربون", " الأكسجين", " بخار الماء", "النيتروجين"], corr: 0 },
-                        { q: "أهمية طبقة الأوزون للكائنات الحية على سطح الأرض تكمن في:", opts: [" منع وصول الأشعة فوق البنفسجية الضارة", " زيادة نسبة الأكسجين", " خفض درجة الحرارة", "تثبيت النيتروجين"], corr: 0 },
-                        { q: "تعدد وتنوع أشكال الكائنات الحية المختلفة في نظام بيئي معين يطلق عليه:", opts: [" التنوع الحيوي", " السلسلة الغذائية", " التوازن البيئي", "التجمع الحيوي"], corr: 0 },
-                        { q: "يتكون المطر الحمضي في الجو نتيجة تفاعل بخار الماء مع أكاسيد:", opts: [" الكبريت والنيتروجين", " الأكسجين والهيدروجين", " الكربون النقي", "الكالسيوم"], corr: 0 },
-                        { q: "أي مما يلي يعد مثالاً على مصادر الطاقة المتجددة والنظيفة:", opts: ["الطاقة الشمسية وطاقة الرياح ", "  الفحم الحجري", "البترول ", " الغاز الطبيعي"], corr: 0 },
-                        { q: "يسهم التشجير (زراعة الأشجار) بيئياً في:", opts: [" تقليل ثاني أكسيد الكربون وزيادة الأكسجين", "زيادة غاز ثاني أكسيد الكربون ", " زيادة الاحتباس الحراري", "جفاف التربة"], corr: 0 },
-                        { q: "الغاز الذي يخرج كناتج أساسي من عملية التركيب الضوئي في النبات هو:", opts: [" الأكسجين", " ثاني أكسيد الكربون ", " النيتروجين", "الهيدروجين"], corr: 0 },
-                        { q: "تسمى الغدة النخامية بملكة الغدد الصم لأنها:", opts: [" تفرز هرمونات تنظم نشاط ", "أكبر غدة في الجسم ", " تفرز الأنسولين ", "تقع في الرقبة"], corr: 0 },
-                        { q: "تستطيع العين الرؤية الواضحة للأجسام القريبة والبعيدة (التكيف) بسبب:", opts: ["مرونة الجسم البلوري وتغير تحدبه ", " تغير لون القزحية ", " اتساع حدقة العين فقط", "ثبات حركة العين"], corr: 0 },
-                        { q: "يصعب تذوق الأطعمة بدقة عندما يكون الأنف مزكوماً لأن:", opts: [" حاسة التذوق ترتبط ارتباطاً وثيقاً بحاسة الشم", "اللسان يفقد خلاياه الحسية ", " اللعاب يتوقف عن الإفراز ", " البلعوم ينغلق تماماً"], corr: 0 },
-                        { q: "لا يصاب الشخص بالمرض نفسه مرتين غالباً بعد أخذ اللقاح بسبب تشكل:", opts: [" خلايا الذاكرة المناعية", "  مضادات حيوية دائمة", "خلايا دم حمراء جديدة ", "هرمونات دفاعية"], corr: 0 },
-                        { q: "الدم الذي يسير في الشرايين الرئوية متجهاً من القلب إلى الرئتين يكون:", opts: ["  قاتماً وغير مؤكسج", " فاتحاً ومؤكسج", " خالياً من الخلايا البيضاء", "شديد اللزوجة"], corr: 0 },
-                        { q: "تتميز جدران البطينين في القلب بأنها أسمك من جدران الأذينين لأن البطينين:", opts: ["يقومان بضخ الدم لمسافات بعيدة تحت ضغط عالٍ ", " يستقبلان الدم فقط", "  يحتويان على صمامات أقل", "لا يمر الدم من خلالهما"], corr: 0 },
-                        { q: "العملية البيولوجية التي تحول الطاقة الضوئية إلى طاقة كيميائية مخزنة في النبات هي:", opts: ["التركيب الضوئي ", " التنفس الخلوي", " النتح", "التخمر"], corr: 0 },
-                        { q: "المعادلة العامة للتنفس الخلوي في خلايا الكائنات الحية هي:", opts: [" غلوكوز + أكسجين ← ثاني أكسيد الكربون + ماء + طاقة", "ماء + ضوء ← أكسجين ", " ثاني أكسيد الكربون + ماء ← غلوكوز", "غلوكوز ← كحول + طاقة"], corr: 0 },
-                        { q: "التناظر الحركي والشكلي في جسم الإنسان يعتبر تناظراً:", opts: [" جانبياً", "شعاعياً ", " دورياً", "معدوم التناظر"], corr: 0 },
-                        { q: "الغاز الناتح عن عملية تنفس الكائنات الحية والذي يسهم في الاحتباس الحراري هو:", opts: ["ثاني أكسيد الكربون ", " الأكسجين", " الهيدروجين", "الأوزون"], corr: 0 },
-                        { q: "أي الأجزاء التالية ينتمي إلى الجهاز العصبي المحيطي وليس المركزي:", opts: [" الأعصاب الشوكية والقفية", "الدماغ ", "المخيخ ", "النخاع الشوكي"], corr: 0 },
-                        { q: "يحمي الدماغ والنخاع الشوكي سائل مائي يمتص الصدمات يسمى:", opts: [" السائل الدماغي الشوكي", "اللمف ", " البلازما", "الخلط المائي"], corr: 0 },
-                        { q: "المستقبلات الحسية المسؤولة عن تمييز الألوان في الضوء القوي هي:", opts: ["المخاريط ", "العصي ", "خلايا كورتي ", "براعم اللسان"], corr: 0 },
-                        { q: "يعالج عيب الرؤية المسمى ( حصر قصر البصر ) بنظارات ذات عدسات:", opts: ["مقعرة ", "محدبة ", " مستوية", "سميكة جداً"], corr: 0 },
-                        { q: "الهرمون الأنثوي المسؤول عن إعداد بطانة الرحم لاستقبال البيضة الملقحة وتثبيت الحمل هو:", opts: ["البروجسترون ", " التستوستيرون", " الأنسولين", "الثايروكسين"], corr: 0 },
-                        { q: "تتكون المادة البيضاء في المراكز العصبية بشكل أساسي من:", opts: ["الألياف العصبية المغمدة بالنخاعين ", "أجسام الخلايا العصبية ", " الأوعية الدموية فقط", "الخلايا العضلية"], corr: 0 },
-                        { q: "الخلية الناتجة مباشرة عن اندماج العرس الذكري بالعرس الأنثوي تسمى:", opts: [" البيضة الملقحة", " النطفة", " الجنين المستقر", "المبيض"], corr: 0 },
-                        { q: "عضوا التكاثر الأساسيان عند النباتات الزهرية هما:", opts: ["  الأسدية والمدقة", "الكأس والتويج ", " الجذور والساق ", "الأوراق والبراعم"], corr: 0 },
-                        { q: "ينقل فيروس نقص المناعة المكتسب (الإيدز) عن طريق:", opts: [" العلاقات الجنسية غير الآمنة ونقل الدم الملوث", " المصافحة والملامسة", "رذاذ العطاس ", "تناول طعام مشترك"], corr: 0 },
-                        { q: "الوظيفة الحيوية التي تهدف إلى استمرار النوع وحمايته من الانقراض هي:", opts: ["التكاثر ", " الهضم", " التنفس", "الإطراح"], corr: 0 },
-                        { q: "تفرز الغدة الدرقية هرموناتها مباشرة في:", opts: [" الدم مباشرة", " قنوات خاصة", "المعدة ", "الجلد"], corr: 0 },
-                        { q: "الكائنات التي تشكل الحلقة الأخيرة في السلاسل الغذائية وتفكك المواد العضوية هي:", opts: ["المحللات (البكتيريا والفطريات) ", " النباتات", " آكلات اللحوم", "آكلات الأعشاب"], corr: 0 },
-                        { q: "المكون الأساسي غير العضوي الذي يشكل النسبة الأكبر في بول الإنسان هو:", opts: [" الماء", " البولة (اليوريا)", "حمض البول ", "الغلوكوز"], corr: 0 },
-                        { q: "التركيب الضوئي عملية تحدث في الخلايا النباتية التي تحتوي على:", opts: [" الصانعات الخضراء", " الميتوكوندريا فقط", "غشاء خلوي سميك فقط ", " النواة المركزية الكبيرة"], corr: 0 },
-                        { q: "المركز العصبي المسؤول عن المنعكسات البصلية كالسعال والقيء هو:", opts: ["البصلة السيسائية ", " المخ", "المخيخ ", "النخاع الشوكي"], corr: 0 }
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال علوم رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'physics') {
-                    const pool = [
-                        { q: "عزم القوة هو فعلها التدويري في الجسم، ويزداد عزم القوة بزيادة: ", opts: ["شدة القوة وطول ذراعها معاً ", "ذراع القوة فقط ", "شدة القوة فقط ", " كتلة الجسم المراد تدويره"], corr: 0 },
-                        { q: " يكون عزم القوة معدوماً (لا يفرّق الجسم) إذا كان حامل القوة:", opts: [" يمر من محور الدوران أو يوازيه", " عمودياً على محور الدوران", " موازياً لسطح الجسم", " شدته كببرة جداً"], corr: 0 },
-                        { q: " تسمى الجملة المكونة من قوتين متوازيتين بالمنحى، متعاكستين بالاتجاه، ومتساويتين بالشدة بـ:", opts: [" المزدوجة", "القوة المركزية ", " محصلة القوى", " قوى التوازن"], corr: 0 },
-                        { q: "الذراع في المزدوجة هو المسافة العمودية بين حاملي القوتين، ويُقاس في الجملة الدولية بوحدة: ", opts: ["المتر (m) ", "النيوتن (N) ", " نيوتن.متر (N.m)", "المتر المربع (m²) "], corr: 0 },
-                        { q: " يقاس عزم القوة أو عزم المزدوجة في الجملة الدولية (SI) بوحدة:", opts: [" N.m", " N/m", "N ", " J"], corr: 0 },
-                        { q: "يكون الجسم الصلب القابل للدوران حول محور ثابت في حالة توازن دوراني إذا كان: ", opts: ["  المجموع الجبري لعزوم القوى المؤثرة فيه معدوماً ", " مجموع شدات القوى يساوي الصفر", "الجسم يتحرك بسرعة ثابتة فقط ", "ذراع القوة يساوي الصفر "], corr: 0 },
-                        { q: " يقاس الضغط في الجملة الدولية بوحدة الباسكال (Pa)، وهي تكافئ:", opts: [" N/m² ", "N.m ", " kg/m", " J/s"], corr: 0 },
-                        { q: "ينص مبدأ باسكال على أن الضغط المطبق على سائل محصور ينتقل بكامله وبانتظام إلى: ", opts: [" جميع أجزاء السائل وجدران الإناء المحوي عليه", " السطح العلوي للسائل فقط", " مركز السائل فقط", "قاع الإناء فقط "], corr: 0 },
-                        { q: "يعتمد مبدأ عمل المكبح الهيدروليكي (الفرامل) والرافعات الزيتية في السيارات على: ", opts: ["مبدأ باسكال ", " دفع أرخميدس", " عزم المزدوجة", "قانون التوازن الدوراني "], corr: 0 },
-                        { q: "يتوقف ضغط السائل المتجانس عند نقطة منه في حالة سكون على: ", opts: [" عمق النقطة عن السطح الحر والكتلة الحجمية للسائل", " مساحة السطح الحر فقط", " شكل الإناء المحتوي للسائل", "حجم السائل الكلي "], corr: 0 },
-                        { q: " يُعرّف العمل الفيزيائي بأنه حاصل ضرب القوة في الانتقال، ويُقاس بوحدة:", opts: ["الجول (J) ", " الواط (W)", "النيوتن (N) ", "الباسكال (Pa) "], corr: 0 },
-                        { q: "الطاقة التي يختزنها الجسم بسبب وضعه أو مرونته تسمى: ", opts: ["الطاقة الكامنة ", " الطاقة الحركية", "الطاقة الحرارية ", " الطاقة الكيميائية"], corr: 0 },
-                        { q: " تتناسب الطاقة الحركية ( Ek}) لجسم متحرك طردياً مع:", opts: [" كتلة الجسم ومربع سرعته", "كتلة الجسم فقط ", " سرعة الجسم فقط", "الارتفاع عن سطح الأرض "], corr: 0 },
-                        { q: " الطاقة الميكانيكية (الكلية) لجسم في غياب قوى الاحتكاك تساوي:", opts: ["مجموع الطاقة الحركية والطاقة الكامنة  ", " الطاقة الحركية فقط", "الطاقة الكامنة فقط ", "الفرق بين الطاقتين "], corr: 0 },
-                        { q: " تُعرّف الاستطاعة الميكانيكية بأنها الطاقة المستهلكة أو العمل المبذول خلال وحدة الزمن، ووحدتها:", opts: [" الواط", "الجول ", " النيوتن", "الأوم "], corr: 0 },
-                        { q: " المسافة التي تقطعها الموجة خلال دور زمن واحد (T) تسمى:", opts: ["طول الموجة ", " التواتر", " السعة", "السرعة "], corr: 0 },
-                        { q: " يُقاس تواتر الاهتزاز (عدد الهزات في الثانية الواحدة) بوحدة:", opts: [" الهرتز", " المتر", " الثانية", " الراديان"], corr: 0 },
-                        { q: "تعتبر أمواج الصوت المنتشرة في الهواء أمواجاً: ", opts: [" طولية", " مستعرضة", " كهرومغناطيسية", "ضوئية "], corr: 0 },
-                        { q: "تُقاس شدة التيار الكهربائي المار في دارة بوحدة الأمبير باستخدام جهاز: ", opts: ["الأمبيرمتر ", "الفولتمتر ", "الأوممتر ", "المانومتر "], corr: 0 },
-                        { q: "ينص قانون أوم على أن شدة التيار المار في ناقل تتناسب طردياً مع فرق الفولت بين طرفيه، وصيغته: ", opts: [" U = R.I", "P = U.I ", " R = I/U", "W = F.d "], corr: 0 },
-                        { q: " عند وصل عدة مقاومات كهربائية على ( التفرع ) فإن الثابت بين طرفي جميع المقاومات هو:", opts: ["التوتر الكهربائي ", " شدة التيار الكهربائي", " المقاومة المكافئة", " الطاقة المستهلكة"], corr: 0 },
-                        { q: " المنطقة المحيطة بالمغناطيس والتي تظهر فيها آثار قواه المغناطيسية تسمى:", opts: [" الحقل المغناطيسي", " الطيف الضوئي", " الحقل الكهربائي", "  الساحة الذرية"], corr: 0 },
-                        { q: " تكون خطوط الحقل المغناطيسي خارج المغناطيس المستقيم عبارة عن خطوط:", opts: [" منحنية وتتجه من القطب الشمالي إلى الجنوبي ", " مستقيمة ومتوازية دائماً", " منحنية وتتجه من الجنوبي إلى الشمالي", " دائرية مركزها منتصف المغناطيس"], corr: 0 },
-                        { q: " تزداد شدة الحقل المغناطيسي المتولد في مركز وشيعة (ملف حلزوني) يمر فيها تيار بـ:", opts: [" زيادة شدة التيار وزيادة عدد لفات الوشيعة", " زيادة المقاومة فقط ", "تقليل عدد اللفات ", "عكس أقطاب المولد "], corr: 0 },
-                        { q: " الجهاز الكهربائي الذي يقوم بتحويل الطاقة الحركية (الميكانيكية) إلى طاقة كهربائية هو:", opts: [" المولد الكهربائي", " المحرك الكهربائي", " المحول الكهربائي", "المقاومة الحرارية "], corr: 0 }
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال فيزياء رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'chemistry') {
-                    const pool = [
-                        { q: "تقاس وحدة التركيز الغرامي للمحاليل المائية في الجملة الدولية بـ: ", opts: ["g/L ", "mol/L ", " g.L", " mol.g"], corr: 0 },
-                        { q: " عند تمديد محلول كيميائي بإضافة الماء المقطر إليه، فإن المادة المذابة:", opts: ["يبقى عدد مولاتها ثابتاً وينقص تركيزها ", " يزداد عدد مولاتها وينقص تركيزها", "ينقص عدد مولاتها ويزداد تركيزها ", "يزداد تركيزها وعدد مولاتها معاً "], corr: 0 },
-                        { q: "التعبير الرياضي الصحيح لقانون تمديد المحاليل (قبل وبعد التمديد) هو: ", opts: ["C₁ × V₁ = C₂ × V₂ ", "C₁ × C₂ = V₁ × V₂ ", "C₁ / V₁ = C₂ / V₂ ", "V₁ × C₂ = V₂ × C₁ "], corr: 0 },
-                        { q: " التفاعل الذي تندمج فيه مادتان أو أكثر لتكوين مادة واحدة جديدة يسمى تفاعل:", opts: ["اتحاد ", "تفكك ", " تبادل أحادي ", " تبادل ثنائي"], corr: 0 },
-                        { q: " تفاعل كربونات الكالسيوم بالحرارة لإنتاج أكسيد الكالسيوم وغاز ثنائي أكسيد الكربون يعد تفاعل:", opts: ["تفكك ", " اتحاد", " إزاحة", " تعديل"], corr: 0 },
-                        { q: "عند وضع مسمار من الحديد في محلول كبريتات النحاس، يحل الحديد محل النحاس لأن الحديد أكثر نشاطاً، ويسمى هذا التفاعل: ", opts: ["إزاحة ", "تفككاً حرارياً ", "  تبادلاً ثنائياً", " اتحاداً مباشر الكبريت "], corr: 0 },
-                        { q: "الغاز الذي ينطلق ويحدث فرقعة مميزة عند تقريب عود ثقاب مشتعل منه أثناء تفاعل المعادن مع الحموض الممددة هو: ", opts: ["الهيدروجين ", " ثنائي أكسيد الكربون", " الأكسجين", " النيتروجين"], corr: 0 },
-                        { q: "الكتلة المولية لجزيء الماء (H₂O) علماً أن الكتل الذرية (H=1 , O=16) تساوي: ", opts: [" 18 g/mol", "17 g/mol ", "32 g/mol ", "2 g/mol "], corr: 0 },
-                        { q: "الأيون المشترك المسؤول عن الخواص الحمضية في جميع محاليل الحموض المائية هو: ", opts: [" أيون الهيدرونيوم أو الهيدروجين (⁺H)", "أيون الهيدروكسيد (⁻OH) ", "  أيون الكلوريد (⁻Cl)", "أيون الصوديوم (⁺Na) "], corr: 0 },
-                        { q: " الأيون المشترك المسؤول عن الخواص الأساسية (القلوية) في محاليل الأسس هو:", opts: ["⁻OH (الهيدروكسيد) ", " ⁺H", " ⁻²SO₄", "  ⁺NH₄"], corr: 0 },
-                        { q: " أحد الحموض التالية يعتبر حمضاً قوياً يتأين في الماء تأيناً كلياً:", opts: [" حمض كلور الماء", "حمض الخل ", "حمض الكربون ", "حمض النمل "], corr: 0 },
-                        { q: " أحد الأسس التالية يعتبر أساساً ضعيفاً يتأين في الماء تأيناً جزئياً:", opts: [" هيدروكسيد الأمونيوم", "هيدروكسيد الصوديوم ", "هيدروكسيد البوتاسيوم ", "هيدروكسيد الكالسيوم "], corr: 0 },
-                        { q: "عند وضع ورقة عباد الشمس (تباع الشمس) الزرقاء في محلول حمضي فإن لونها يتحول إلى: ", opts: ["الأحمر ", "الأصفر ", "الأخضر ", "تبقى زرقاء دون تغيير "], corr: 0 },
-                        { q: "تكون قيمة الرقم الهيدروجيني (pH) للمحاليل الأساسية (القلوية) دائماً: ", opts: ["أكبر من 7 (بين 7 و14) ", " تساوي 7 تماماً", "  أقل من 7", " تساوي صفراً"], corr: 0 },
-                        { q: " محلول مائي معتدل (مثل الماء المقطر النقية) تكون قيمة الـ pH له مساوية لـ:", opts: [" 7", "0 ", "14 ", " 1"], corr: 0 },
-                        { q: "يسمى التفاعل الكيميائي الذي يحدث بين حمض وأساس لينتج عنه ملح وماء بتفاعل: ", opts: ["  التعديل ", "الاتحاد ", "الترسيب ", "الأكسدة "], corr: 0 },
-                        { q: " يتكون الملح كيميائياً من ارتباط شقين هما:", opts: ["شق موجب وشق سالب ", "شقين سالبين من الحموض ", "هيدروجين وأكسجين فقط ", " أساسين قويين"], corr: 0 },
-                        { q: " الاسم الكيميائي الصحيح لملح الطعام وصيغته الكيميائية هما:", opts: [" كلوريد الصوديوم NaCl ", " كربونات الصوديوم Na₂CO₃", "كبريتات النحاس CuSO₄ ", "نترات الفضة AgNO₃ "], corr: 0 },
-                        { q: "الغاز الذي ينطلق عند تفاعل الحموض مع أملاح الكربونات ويعمل على تعكير ماء الكلس الرائق هو: ", opts: ["غاز ثنائي أكسيد الكربون ", "غاز الهيدروجين ", " غاز الأكسجين", "غاز النشادر "], corr: 0 },
-                        { q: " أحد الأملاح التالية يعتبر شحيح (قليل) الذوبان في الماء ويظهر كراسب أبيض عند تشكله:", opts: ["كلوريد الفضة ", " نترات الصوديوم", "كلوريد البوتاسيوم ", "كبريتات المغنيزيوم "], corr: 0 },
-                        { q: " الصيغة الكيميائية الصحيحة لـ ( حمض الكبريت ) هي:", opts: [" H₂SO₄", " HCl", " HNO₃", "H₃PO₄ "], corr: 0 },
-                        { q: "التكافؤ الصحيح لجذر الكربونات ⁻²CO₃ في المركبات الكيميائية هو: ", opts: ["ثنائي ", "أحادي ", " ثلاثي", " رباعي"], corr: 0 },
-                        { q: "عند كتابة الصيغة الكيميائية لمركب ( كلوريد الكالسيوم )، وبما أن الكالسيوم ثنائي التكافؤ والكلور أحادي، تكون صيغته: ", opts: ["CaCl₂ ", "CaCl ", "  Ca₂Cl", " Ca₂Cl₂"], corr: 0 },
-                        { q: "الصيغة الكيميائية ( NaOH ) تعبر عن مركب يدعى: ", opts: [" هيدروكسيد الصوديوم", "حمض الصوديوم ", " كربونات الصوديوم", " أكسيد الصوديوم "], corr: 0 },
-                        { q: " الصيغة الكيميائية لجذر الفوسفات وتكافؤه هي:", opts: ["⁻³PO₄ وتكافؤه ثلاثي ", " ⁻PO₄ وتكافؤه أحادي", " ⁻²PO₄ وتكافؤه ثنائي", " ⁻⁴PO₄ وتكافؤه رباعي"], corr: 0 }
-                        
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال كيمياء رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'history') {
-                    const pool = [
-                        { q: " قائد الثورة السورية الكبرى عام 1925 ضد الاستعمار الفرنسي هو:", opts: [" سلطان باشا الأطرش", "صالح العلي ", "إبراهيم هنانو ", " حسن الخراط"], corr: 0 },
-                        { q: " قاد المجاهد صالح العلي الثورة ضد الاستعمار الفرنسي في منطقة:", opts: [" الساحل السوري وجبال اللاذقية", " حلب وإدلب", " غوطة دمشق", " جبل العرب"], corr: 0 },
-                        { q: "المعركة التاريخية التي استشهد فيها وزير الحربية يوسف العظمة عام 1920 هي معركة: ", opts: [" ميسلون", " حطين", " اليرموك ", " مرج دابق"], corr: 0 },
-                        { q: " قائد ثورة الشمال السوري ضد القوات الفرنسية هو المجاهد:", opts: ["إبراهيم هنانو ", " محمد الأشمر", "رمضان شلاش ", " فوزي القاوقجي"], corr: 0 },
-                        { q: " نالت سوريا استقلالها التام وجلاء آخر جندي فرنسي عن أراضيها في:", opts: ["17 نيسان 1946 ", "8 آذار 1920 ", "29 أيار 1945 ", "22 شباط 1958 "], corr: 0 },
-                        { q: "الاتفاقية السرية التي وُقعت عام 1916 لتقسيم بلاد الشام والعراق بين فرنسا وبريطانيا هي: ", opts: ["اتفاقية سايكس بيكو ", " اتفاقية سان ريمو", " معاهدة لوزان ", " صك الانتداب"], corr: 0 },
-                        { q: "المؤتمر الذي أقر فرض ( الانتداب ) الفرنسي على سوريا ولبنان، والبريطاني على فلسطين والعراق عام 1920 هو: ", opts: ["مؤتمر سان ريمو ", " مؤتمر فرساي", " مؤتمر لندن", " مؤتمر يالطا"], corr: 0 },
-                        { q: " الوعد المشؤوم الذي أصدرته بريطانيا عام 1917 لإقامة وطن قومي لليهود في فلسطين هو:", opts: [" وعد بلفور", "تصريح ميسون ", " معاهدة سيفر", "  اتفاقية الغردقة"], corr: 0 },
-                        { q: "قامت فرنسا باقتطاع لواء إسكندرون السوري ومنحه لتركيا بشكل غير قانوني عام: ", opts: ["1939 ", " 1920", " 1936", "1946 "], corr: 0 },
-                        { q: "السياسة التي اتبعتها فرنسا عند دخولها سوريا لإضعاف المقاومة الوطنية هي سياسة: ", opts: [" فرق تسد", "التنمية الاقتصادية ", "الحكم الذاتي الموسع ", " الحياد الإيجابي "], corr: 0 },
-                        { q: " المفكر العربي السوري الذي ألف كتاب ( طبائع الاستبداد ومصارع الاستعباد ) هو:", opts: ["عبد الرحمن الكواكبي ", " ساطع الحصري", " ناصيف اليازجي", " خير الدين التونسي"], corr: 0 },
-                        { q: "تأسست جامعة الدول العربية وجعلت مقرها الدائم في مدينة القاهرة عام: ", opts: [" 1945", " 1920", " 1940", "1950 "], corr: 0 },
-                        { q: " أول دولة عربية أعلنت قيام حكم ملكي دستوري بدمشق ونُصب فيها فيصل بن الحسين ملكاً عام 1920 هي:", opts: [" المملكة السورية العربية ", " المملكة الحجازية", " المملكة العراقية", "الإمارة الأردنية "], corr: 0 },
-                        { q: " المؤتمر الذي عقده السوريون عام 1919 ورفضوا فيه الانتداب ووعد بلفور هو:", opts: ["المؤتمر السوري العام ", " مؤتمر حمص", " مؤتمر بلودان", "مؤتمر جنيف "], corr: 0 },
-                        { q: "المجاهد الليبي الذي قاد المقاومة ضد الاستعمار الإيطالي لأكثر من عشرين عاماً هو: ", opts: ["عمر المختار ", "عبد القادر الجزائري ", "أحمد عرابي ", " مصطفى كامل"], corr: 0 },
-                        { q: " قامت الوحدة بين سوريا ومصر تحت اسم ( الجمهورية العربية المتحدة ) عام:", opts: [" 1958", "1946 ", " 1961", " 1970"], corr: 0 },
-                        { q: " الحرب التاريخية التي خاضها الجيشان السوري والمصري ضد الاحتلال الإسرائيلي وحطمت أسطورة تفوقه عام 1973 هي:", opts: [" حرب تشرين التحريرية", "حرب النكبة ", " حرب حزيران", "حرب الاستنزاف "], corr: 0 },
-                        { q: "يُقصد بالمفهوم التاريخي ( الانتداب ) : ", opts: [" شكل من الاستعمار فرضته عصبة الأمم بحجة مساعدة الشعوب على حكم نفسها", " احتلال عسكري مباشر لنهب الثروات بالقوة", " تحالف عسكري متكافئ بين دولتين", "حماية دبلماسية بدون تدخل عسكري "], corr: 0 },
-                        { q: "اتفاقية الحكم الثنائي عام 1899 فرضت سيطرة بريطانيا ومصر على: ", opts: [" السودان", " تونس", " المغرب", "الصومال "], corr: 0 },
-                        { q: " الثورة العربية التي اندلعت عام 1954 وأدت إلى طرد الاستعمار الفرنسي بعد تقديم مليون ونصف المليون شهيد هي ثورة:", opts: [" الجزائر", " تونس", " مصر", " العراق"], corr: 0 },
-                        { q: " صحيفة سورية تاريخية شهيرة أسسها المفكر عبد الرحمن الكواكبي في حلب هي صحيفة:", opts: ["الشهباء ", " المقتطف", "المنار ", " بردى"], corr: 0 },
-                        { q: "يُطلق على المخطط الاستعماري البريطاني الذي استهدف تقسيم أملاك الدولة العثمانية في الوطن العربي اسم: ", opts: [" رجل أوروبا المريض", " المسألة الشرقية", "سياسة ملء الفراغ ", "المخطط الهيكلي "], corr: 0 },
-                        { q: " معاهدة عام 1936 بين سوريا وفرنسا كانت تنص على:", opts: [" اعتراف فرنسا باستقلال سوريا مقابل امتيازات عسكرية واقتصادية لمد 25 سنة", " بقاء الانتداب الفرنسي بشكل دائم ", "تنازل سوريا عن دمشق لفرنسا ", " تقسيم سوريا إلى أربع دول مستقلة"], corr: 0 },
-                        { q: " المعركة التي هزم فيها العثمانيون المماليك ودخلوا بعدها إلى بلاد الشام عام 1516 هي معركة:", opts: ["مرج دابق ", " الريدانية", "  جالديران", "وادي المخازن "], corr: 0 },
-                        { q: " الحدث التاريخي السوري الذي نذكر فيه استشهاد المفكرين والأحرار بساحتي المرجة بدمشق والبرج ببيروت عام 1916 هو:", opts: [" عيد الشهداء", "عيد الجلاء ", " ثورة الثامن من آذار ", "الحركة التصحيحية "], corr: 0 },
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال تاريخ رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'geography') {
-                    const pool = [
-                        { q: "الخط الوهمي الذي يقسم الكرة الأرضية إلى نصفين شمالي وجنوبي وتكون درجته (صفر) هو: ", opts: ["خط الاستواء ", "خط غرينتش ", "مدار السرطان ", "  مدار الجدي"], corr: 0 },
-                        { q: "ينتج عن دوران الأرض حول محورها (أمام الشمس) مرة كل 24 ساعة ظاهرة: ", opts: [" تعاقب الليل والنهار ", "الفصول الأربعة ", "  الانقلاب الصيفي", "  تفاوت طول النهار والليل"], corr: 0 },
-                        { q: " أعلى قمة جبلية في سوريا هي قمة ( جبل الشيخ )  / حرمون / ، وتوجد ضمن السلاسل الجبلية:", opts: [" الشرقية", "الساحلية ", " حلب", " البشري"], corr: 0 },
-                        { q: "تتميز الهضبة السورية (بادية الشام) بوجود أودية سيلية جافة تنتهي في منخفضات مغلقة تسمى: ", opts: [" الخباري (أو السبخات)", "  السهول الفيضية", "الخوانق الجبلية ", "  الدلتا"], corr: 0 },
-                        { q: " المناخ الذي يسود في المنطقة الساحلية من سوريا ويتميز بأنه ماطر دافئ شتاءً وحار جاف صيفاً هو:", opts: [" مناخ البحر الأبيض المتوسط", " المناخ الصحراوي", " المناخ المداري", " المناخ الاستوائي"], corr: 0 },
-                        { q: "تتناقص كمية الأمطار في سوريا كلما اتجهنا نحو: ", opts: [" الشرق والجنوب الشرقي", "الشمال والغرب ", "المرتفعات الجبلية ", " السواحل "], corr: 0 },
-                        { q: "تنشأ الرياح بشكل عام نتيجة لانتقال الهواء من مناطق: ", opts: ["الضغط الجوي المرتفع إلى مناطق الضغط الجوي المنخفض ", " الضغط الجوي المنخفض إلى مناطق الضغط الجوي المرتفع", "الحرارة المنخفضة إلى مناطق الضغط المنخفض ", " السواحل إلى الجبال دائماً "], corr: 0 },
-                        { q: "تعد بحيرة ( مسعدة ) في هضبة الجولان السوري المحتل مثالاً على البحيرات ذات المنشأ: ", opts: ["البركاني ", "الانهدامي ", " الاصطناعي", " الكارستي"], corr: 0 },
-                        { q: "أطول نهر يمر في سوريا وينبع من تركيا ويصب في الخليج العربي بعد مروره بالعراق هو نهر: ", opts: ["الفرات ", "العاصي ", " دجلة", "اليرموك "], corr: 0 },
-                        { q: " النهر السوري الداخلي الذي ينبع من لبنان (مغارة اللبوة) ويتجه شمالاً ليصب في البحر المتوسط هو نهر:", opts: [" العاصي", "بردى ", " الساجور", " الكبير الشمالي"], corr: 0 },
-                        { q: " أكبر بحيرة اصطناعية في سوريا تشكلت خلف سد الفرات هي بحيرة:", opts: [" الأسد", " قطينة", "  17 نيسان", " تشرين"], corr: 0 },
-                        { q: " تُعرف المياه التي تتسرب إلى باطن الأرض عبر الصخور النفوذة وتستقر فوق طبقة كتيمة بـ:", opts: ["المياه الجوفية ", " المياه السطحية", "مياه النتح ", " المجاري السيلية "], corr: 0 },
-                        { q: " يُقصد بالمفهوم الجغرافي ( الكثافة السكانية العامة ) :", opts: [" نسبة عدد السكان الإجمالي إلى المساحة الكلية للدولة ", "عدد المواليد مقارنة بعدد الوفيات في السنة ", "  انتقال السكان من الريف إلى المدينة", "تركيب السكان حسب الفئات العمرية "], corr: 0 },
-                        { q: " الهجرة التي تتم من الريف السوري إلى المدن الكبرى (مثل دمشق وحلب) تُصنف على أنها هجرة:", opts: [" داخلية", " خارجية مؤقتة", "  دولية قسرية", "موسمية "], corr: 0 },
-                        { q: " التركيب السكاني الذي يدرس توزيع السكان حسب الذكور والإناث يسمى التركيب:", opts: [" النوعي", " العمري", " الاقتصادي", "الثقافي "], corr: 0 },
-                        { q: " يتميز الهرم السكاني في معظم دول الوطن العربي (ومنها سوريا) بأنه ذو قاعدة عريضة بسبب:", opts: [" ارتفاع نسبة صغار السن", "ارتفاع نسبة الشيخوخة ", " زيادة الهجرة الخارجية ", " انخفاض معدل النمو السكاني"], corr: 0 },
-                        { q: " تتركز زراعة الحمضيات والتبغ في سوريا بشكل أساسي في المحافظات:", opts: ["  الساحلية (اللاذقية وطرطوس)", " الشرقية (الحسكة ودير الزور) ", "الجنوبية (درعا والسويداء) ", " الوسطى (حمص وحماة)"], corr: 0 },
-                        { q: " المحصول الاستراتيجي الأول في سوريا الذي يعتمد على الأمطار (بعل) أو الري وينتج بكثرة في الجزيرة السورية هو:", opts: ["القمح ", " الشوندر السكري", " الفستق الحلبي", "الزيتون "], corr: 0 },
-                        { q: " تعتمد الزراعة في المناطق التي تقل فيها الأمطار عن 200 ملم سنوياً في سوريا على:", opts: [" مياه الري (الأنهار والآبار الجوفية)", "مياه الأمطار مباشرة (البعل) ", " مياه الندى", " مياه الصرف الصحي المعالجة فقط"], corr: 0 },
-                        { q: "تعد منطقة ( الجبسة ) وحقول ( الرميلان ) في شمال شرق سوريا من أهم مراكز إنتاج: ", opts: ["النفط والغاز الطبيعي ", " الفوسفات", " الحديد", "الملح الصخري "], corr: 0 },
-                        { q: "تنتشر مناجم استخراج الفوسفات في سوريا في منطقة بادية تدعى: ", opts: [" خنيفيس والصوانة", " حوض اليرموك", " جبل عبد العزيز", " الغاب"], corr: 0 },
-                        { q: " يُطلق على التجارة التي تتم بين المحافظات السورية داخل حدود الدولة الواحدة اسم:", opts: ["التجارة الداخلية ", " التجارة الخارجية", " الميزان التجاري", " تجارة العبور (الترانزيت)"], corr: 0 },
-                        { q: " عندما تكون قيمة صادرات الدولة المالية أكبر من قيمة وارداتها، يكون الميزان التجاري:", opts: ["رابحاً ", " خاسراً", " متوازناً", "معدوماً "], corr: 0 },
-                        { q: " من أهم الصعوبات والمشكلات التي تواجه التربة الزراعية في المناطق الجافة وشبه الجافة نتيجة الري الكثيف:", opts: [" التملح", "التفحم ", " التجمد", "الرطوبة الزائدة "], corr: 0 },
-                        { q: " الصناعة السورية العريقة القائمة على تحويل القطن والصوف والحرير إلى أقمشة وملابس تسمى صناعة:", opts: [" الصناعات النسيجية", " الصناعات الكيميائية", "الصناعات الهندسية ", "الصناعات الاستخراجية "], corr: 0 }
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال جغرافيا رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'algebra') {
-                    const pool = [
-                        { q: " القاسم المشترك الأكبر للعددين 36 و 24 هو:", opts: ["12 ", "6 ", "18 ", " 24"], corr: 0 },
-                        { q: "الكسر المختزل (في أبسط صورة) للكسر 15/45 هو: ", opts: ["<sup>1</sup>/<sub>3</sub> ", " <sup>1</sup>/<sub>2</sub>", "<sup>3</sup>/<sub>5</sub> ", " <sup>2</sup>/<sub>3</sub>"], corr: 0 },
-                        { q: "العدد الذي يعتبر عدداً عادياً (ينتمي إلى مجموعة الأعداد العادية Q) هو: ", opts: [" <span>9&radic;</span>", "<span>2&radic;</span> ", "π ", " <span>5&radic;</span>"], corr: 0 },
-                        { q: "العدد المشترك الذي إذا قُسم عليه عددان دون باقٍ يسمى قاسم مشترك، والعددان اللذان قاسمهما المشترك الأكبر يساوي 1 يسميان عددين: ", opts: ["أوليين فيما بينهما ", "زوجيين ", "فرديين ", "متساويين "], corr: 0 },
-                        { q: " ناتج العملية  1/4  +  2/3   هو:", opts: [" 11/12", " 3/7", "2/12 ", "5/12 "], corr: 0 },
-                        { q: " نشر العبارة الجبرية (x + 3)² يعطي:", opts: ["x² + 6x + 9 ", " x² + 9", "x² + 3x + 9 ", " x² - 6x + 9"], corr: 0 },
-                        { q: " نشر العبارة الجبرية (2x - 1)² هو:", opts: [" 4x² - 4x + 1", "4x² - 1 ", " 4x² - 2x + 1", " 2x² - 4x + 1"], corr: 0 },
-                        { q: "تحليل العبارة الجبرية x² - 25 إلى جلاء عاملين هو: ", opts: ["(x - 5)(x + 5) ", "  (x - 25)(x + 25)", "²(x - 5) ", "²(x + 5) "], corr: 0 },
-                        { q: " عند تحليل العبارة الجبرية 3x² + 6x بإخراج العامل المشترك الأكبر نجد:", opts: ["(x² + 2)3 ", "x(3x + 6) ", " 3x(x + 2) ", " 6x(x + 1)"], corr: 0 },
-                        { q: " شكل التحليل للعبارة x² - 6x + 9 بالاعتماد على المتطابقات الشهيرة هو:", opts: [" ²(x - 3)", " ²(x + 3)", "(x - 9)(x + 1) ", "(x - 3)(x + 3) "], corr: 0 },
-                        { q: " حل المعادلة 2x - 8 = 0 هو:", opts: [" x = 4", "x = -4 ", " x = 2", " x = 8"], corr: 0 },
-                        { q: "حلول الجداء الصَفري للمعاملة (x - 2)(x + 5) = 0 هي: ", opts: [" x = 2 أو x = -5", "x = -2 أو x = 5 ", " x = 2 أو x = 5", " x = 0 فقط"], corr: 0 },
-                        { q: "حل المتراجحة 3x > 12 هو مجموعة الأعداد x التي تحقق: ", opts: ["x > 4 ", "x > 9 ", "  x < 4", " x ≥ 4"], corr: 0 },
-                        { q: "عند ضرب طرفي متراجحة بعدد سالب، فإن إشارة التباين (المتراجحة): ", opts: [" تنقلب (تتغير جهتها)", "تبقى كما هي دون تغيير ", "تتحول إلى إشارة مساواة ", "تصبح صفراً "], corr: 0 },
-                        { q: "مجموعة حلول المتراجحة -2x ≤ 6 هي: ", opts: [" x ≥ -3", "x ≤ -3 ", "x ≤ 3 ", " x > -3"], corr: 0 },
-                        { q: "الزوج الافتراضي (x, y) الذي يمثل حلاً لجملة المعادلتين x + y = 5 و x - y = 1 هو: ", opts: ["  (3, 2)", " (4, 1)", " (2, 3)", " (5, 0)"], corr: 0 },
-                        { q: "الحل المشترك لجملة المعادلتين هندسياً يمثل نقطة: ", opts: [" تقاطع المستقيمين الممثلين للمعادلتين", "بداية المستقيمين ", " توازي المستقيمين", " انطباق المستقيمين دائماً"], corr: 0 },
-                        { q: "إذا كانت الجملة مكونة من مستقيمين متوازيين تماماً، فإن عدد الحلول المشتركة للجملة هو: ", opts: [" مستحيلة الحل ", " حل واحد فقط", "حلان ", " عدد غير منتهٍ من الحلول"], corr: 0 },
-                        { q: "إذا كان 3/2 = x/4 فإن قيمة x تساوي: ", opts: [" 6", " 2", " 12", "8 "], corr: 0 },
-                        { q: " الوسيط للبيان الإحصائي المرتب تصاعدياً: [2, 4, 7, 8, 10] هو:", opts: [" 7", "4 ", "6 ", "8 "], corr: 0 },
-                        { q: "المتوسط الحسابي للدرجات [5, 7, 9, 11] هو: ", opts: ["8 ", "7 ", "9 ", "32 "], corr: 0 },
-                        { q: " المنوال في البيان الإحصائي التالي: [3, 5, 5, 7, 8, 5, 9] هو:", opts: [" 5", "3 ", " 7", "9 "], corr: 0 },
-                        { q: " عند رمي حجر نرد منتظم (مرقم من 1 إلى 6) مرة واحدة، فإن احتمال ظهور عدد زوجي هو:", opts: ["1/2 ", " 1/3", "1/6 ", " 2/3"], corr: 0 },
-                        { q: "احتمال الحدث المستحيل في الرياضيات يساوي دائماً: ", opts: [" 0", " 1", "0.5 ", "-1 "], corr: 0 },
-                        { q: " إذا كان احتمال وقوع حدث ما هو P(A) = 3/4، فإن احتمال الحدث المعاكس له P(&Amacr;) يساوي:", opts: ["1/4 ", " 3/4", " 0", " 1"], corr: 0 }
-                        
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال جبر رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'geometry') {
-                    const pool = [
-                        { q: "إذا قطع مستقيمان متقاطعان مستقيمات متوازية، فإنها تحدد على المستقيمين قطعاً مستقيمة متقابلة أطوالها: ", opts: [" متناسبة", "متساوية تماماً ", "متطابقة ", " عشوائية"], corr: 0 },
-                        { q: "في المثلث ABC، إذا كان المستقيم DE يوازي الضلع BC ويقطع AB في D وAC في E، وكانت النسب AD/AB = 2/5 و AC = 15 فإن طول AE يساوي: ", opts: ["6 ", " 3", " 10", "7.5 "], corr: 0 },
-                        { q: " إذا كانت نسبة تشابه مضلعين أو مثلثين هي k، فإن نسبة مساحتيهما تساوي:", opts: [" k²", "  k", " 2k", " <span>k&radic;</span>"], corr: 0 },
-                        { q: " إذا كانت نسبة تشابه مجسمين متجانسين هي k، فإن نسبة حجميهما تساوي:", opts: ["k³ ", "k² ", " 3k", " 1/k"], corr: 0 },
-                        { q: " يتشابه مثلثان إذا:", opts: [" تساوت زاويتان من الأول مع زاويتين من الثاني بالترتيب", " تساوت أطوال أضلاعهما بالترتيب ", "كان لهما ضلع مشترك ", "كانت مساحتاهما متساويتين "], corr: 0 },
-                        { q: "جيب تمام الزاوية الحادة (cos) في المثلث القائم يساوي النسبة بين: ", opts: [" الضلع المجاروة والوتر", "الضلع المقابلة والوتر ", "الضلع المقابلة والضلع المجاورة ", "الوتر والضلع المقابلة "], corr: 0 },
-                        { q: "في أي مثلث قائم الزاوية، يكون طول الضلع المقابلة للزاوية التي قياسها 30 درجة مساوياً لـ: ", opts: [" نصف طول الوتر", "طول الوتر تماماً ", "ثلثي طول الوتر ", "مربع طول الوتر "], corr: 0 },
-                        { q: " إذا كان ABC مثلثاً قائماً في B، وكان AC = 10 cm و BC = 6 cm، فإن طول الضلع AB حسب مبرهنة فيثاغورث يساوي:", opts: [" cm 8 ", "   cm 4", " cm 16", "<span>136&radic;</span> cm "], corr: 0 },
-                        { q: "ظل الزاوية الحادة (tan) في المثلث القائم يُحسب رياضياً عبر النسبة: ", opts: [" sin/cos", " cos/sin", " المقابل × المجاور", "المجاورة / المقابلة "], corr: 0 },
-                        { q: " لأي زاوية حادة x، تكون العلاقة الأساسية بين الجيب وجيب التمام هي:", opts: ["sin² x + cos² x = 1 ", " sin x + cos x = 1", " sin² x - cos² x = 1 ", "sin x × cos x = 1 "], corr: 0 },
-                        { q: "قياس الزاوية المركزية في الدائرة يساوي: ", opts: ["قياس القوس المقابلة لها تماماً ", " نصف قياس القوس المقابلة لها", " ضعف قياس القوس المقابلة لها", "90 درجة دائماً "], corr: 0 },
-                        { q: "قياس الزاوية المحيطية في الدائرة يساوي: ", opts: [" نصف قياس القوس المقابلة لها ", "قياس القوس المقابلة لها ", " ضعف قياس الزاوية المركزية", "180 درجة دائماً "], corr: 0 },
-                        { q: " كل زاوية محيطية تحصر أو تقابل نصف دائرة (قطر الدائرة) تكون زاوية:", opts: ["قائمة ", "حادة ", " منفرجة", "مستقيمة "], corr: 0 },
-                        { q: "المستقيم المماس للدائرة عند نقطة منها يكون وعمودياً على: ", opts: ["نصف القطر المار من نقطة التماس ", " أي وتر في الدائرة", "محور السينات ", " مماس آخر موازٍ له "], corr: 0 },
-                        { q: " الرباعي الدائري هو رباعي تمر برؤوسه الأربعة دائرة واحدة، ومن أهم خواصه أن كل زاويتين متقابلتين فيه تكونان:", opts: ["متكاملتين ", "متساويتين ", " متتامتين", "متبادلتين داخلياً "], corr: 0 },
-                        { q: "قياس الزاوية المماسية المحصورة بين مماس ووتر يمر بنقطة التماس يساوي: ", opts: ["  نصف قياس القوس المحصورة بين ضلعيها", " نفس قياس الزاوية المركزية التي تحصر القوس نفسه ", " 45 درجة دائماً", " ضعف قياس الزاوية المحيطية المشتركة معها"], corr: 0 },
-                        { q: " يكون الشعاع <mo>v&#x2192;</mo> والشعاع <mo>u&#x2192;</mo> مرتبطين خطياً إذا وفقط إذا كان حاملاهما: ", opts: [" متوازيين أو منطبقين", "متعامدين ", "متقاطعين في نقطة واحدة ", "طولهما يساوي الصفر "], corr: 0 },
-                        { q: "علاقة شال لجمع الأشعة تنص على أن <mo>AB&#x2192;</mo> + <mo>BC&#x2192;</mo> تساوي الشعاع: ", opts: [" <mo>AC&#x2192;</mo>", "<mo>CA&#x2192;</mo> ", " <mo>BA&#x2192;</mo>", "<mo>CB&#x2192;</mo> "], corr: 0 },
-                        { q: "إذا كان ABCD متوازي أضلاع، فإن محصلة جمع الشعاعين <mo>AB&#x2192;</mo> + <mo>AD&#x2192;</mo> تساوي الشعاع: ", opts: ["<mo>AC&#x2192;</mo> ", " <mo>BD&#x2192;</mo>", "<mo>CA&#x2192;</mo> ", "<mo>DB&#x2192;</mo> "], corr: 0 },
-                        { q: "إذا كانت النقطة M هي منتصف القطعة المستقيمة AB، فإن الشعاع <mo>MA&#x2192;</mo> + <mo>MB&#x2192;</mo> يساوي: ", opts: ["<mo>0&#x2192;</mo> ", " <mo>AB&#x2192;</mo>", "<mo>BA&#x2192;</mo> ", "<mo>2MA&#x2192;</mo> "], corr: 0 },
-                        { q: " المساحة الجانبية للاسطوانة الدورانية تُحسب من القانون (حيث r نصف القطر و h الارتفاع):", opts: ["2π r h ", " π r² h", " 2π r²", " r² h π 1/3"], corr: 0 },
-                        { q: "حجم المخروط الدوراني الذي نصف قطر قاعدته r وارتفاعه h يساوي: ", opts: [" r² h π 1/3", " π r² h", " r<sup>3</sup> π 4/3", " 2π r h"], corr: 0 },
-                        { q: " حجم الكرة التي نصف قطرها R يُعطى بالقانون الرياضي:", opts: ["r<sup>3</sup> π 4/3 ", " 4π R²", " π R²", " 2π R"], corr: 0 },
-                        { q: "المساحة السطحية الكلية للكرة التي نصف قطرها R تساوي: ", opts: ["4π R² ", "2π R² ", " π R²", "R<sup>2</sup> π 4/3"], corr: 0 },
-                        { q: " حجم الهرم الذي مساحة قاعدته B وارتفاعه h يساوي:", opts: ["h * B * 1/3 ", " h * B", " h * B * 1/2", "h * B<sup>2</sup>"], corr: 0 }
+    <script src="app.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, getDoc, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال هندسة رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'arabic') {
-                    const pool = [
-                        { q: "الاسم المنصوب الذي يذكر لبيان علة وقوع الفعل وسبب حدوثه هو المفعول: ", opts: [" لأجله", "به ", " فيه", "المطلق "], corr: 0 },
-                        { q: "نوع المفعول مطلق في جملة ( قرأتُ الدرسَ قراءةً متأنيةً ) هو: ", opts: [" مبين لنوع الفعل", "مؤكد للفعل ", "مبين لعدد مرات الفعل ", " نائب عن المفعول المطلق"], corr: 0 },
-                        { q: " نائب عن المفعول المطلق", opts: ["الكسرة نيابة عن الفتحة ", "الفتحة ", " الياء", "الألف "], corr: 0 },
-                        { q: " في جملة ( إنَّ العلمَ نافعٌ )، يُعرب الاسم (نافعٌ):", opts: ["خبر إن مرفوع ", "  اسم إن منصوب", "صفة مرفوعة ", " مفعول به"], corr: 0 },
-                        { q: " الأفعال الناقصة (كان وأخواتها) تدخل على الجملة الاسمية فـ:", opts: [" ترفع المبتدأ وتنصب الخبر", "تنصب المبتدأ وترفع الخبر ", "تنصب المبتدأ والخبر معاً ", "  تجزم المبتدأ والخبر"], corr: 0 },
-                        { q: " إعراب كلمة ( أخوك ) في جملة ( جاء أخوكَ ) هو فاعل مرفوع وعلامة رفعه:", opts: [" الواو لأنه من الأسماء الخمسة", "الضمة الظاهرة ", "الألف لأنه مثنى ", "ثبوت النون "], corr: 0 },
-                        { q: "الأداة التي تجزم فعلين مضارعين (فعل الشرط وجواب الشرط) هي: ", opts: ["مَنْ ", " لَمْ", "لَمّا ", " لام الأمر"], corr: 0 },
-                        { q: "نوع المنادى في جملة ( يا طالبَ العلمِ اجتهدْ ) هو: ", opts: [" مضاف", "مفرد علم ", "  نكرة مقصودة", " شبيه بالمضاف"], corr: 0 },
-                        { q: " المنادى الذي يبنى على ما يُرفع به في محل نصب هو:", opts: ["المفرد العلم والنكرة المقصودة ", " المضاف", " الشبيه بالمضاف", "  النكرة غير المقصودة"], corr: 0 },
-                        { q: " جملة ( وهو يبتسم ) في عبارة ( جاء المعلمُ وهو يبتسمُ ) في محل:", opts: [" نصب حال", "رفع خبر ", "جر صفة ", "جزم جواب الشرط "], corr: 0 },
-                        { q: " التابع الذي يذكر لبيان صفة في اسم قبله يسمى المتبوع ويطابقه في أربعة أشياء هو:", opts: ["النعت  ", " البدل", "التوكيد ", "العطف "], corr: 0 },
-                        { q: "في جملة ( نجح الطلابُ كلُّهم )، يُعرب اللفظ (كلُّهم): ", opts: [" توكيد معنوي مرفوع", " بدل بعض من كل", " نعت مرفوع ", "توكيد لفظي "], corr: 0 },
-                        { q: "نوع البدل في جملة ( أكلتُ الرغيفَ ثُلثَهُ ) هو بدل: ", opts: ["بعض من كل ", "كل من كل ", " اشتمال", " مباين"], corr: 0 },
-                        { q: "المضارع في جملة ( أنْ تدرسَ خيرٌ لك ) منصوب بـ: ", opts: [" أنْ الناصبة الظاهرة", " لن", " كي", "أن المضمرة بعد لام التعليل "], corr: 0 },
-                        { q: "إذا اتصلت نون النسوة بالفعل المضارع فإنه يبنى على: ", opts: ["السكون ", " الفتح", "الضم ", "حذف النون "], corr: 0 },
-                        { q: "علامة جزم الفعل المضارع معتل الآخر (مثل: لم يسعَ) هي: ", opts: [" حذف حرف العلة", "السكون ", " حذف النون", "الفتحة المقدرة "], corr: 0 },
-                        { q: "يُعرب الاسم الواقع بعد ( لولا ) دائماً: ", opts: [" مبتدأ خبره محذوف وجوباً", "فاعلاً لفعل محذوف ", " مفعولاً به", "مضافاً إليه "], corr: 0 },
-                        { q: "أسلوب المدح في اللواحق النحوية باستعمال ( نِعْمَ )، الفاعل في ( نِعْمَ العملُ الصدقُ ) هو: ", opts: ["العملُ ", " الصدقُ", " ضمير مستتر", " محذوف"], corr: 0 },
-                        { q: " الاسم الممنوع من الصرف يُجر بالفتحة نيابة عن الكسرة شريطة ألا يكون:", opts: [" مضافاً أو معرفاً بأل", " مشتقاً", "علماً مؤنثاً ", " جمع تكسير"], corr: 0 },
-                        { q: " الاسم النكرة المنصوب الواقع بعد اسم التفضيل (مثل: هو أكثرُ منكَ علماً) يُعرب:", opts: [" تمييزاً", "حالاً ", "مفعولاً به ", "مضافاً إليه "], corr: 0 },
-                        { q: " كُتبت الهمزة متوسطة في كلمة ( ذِئْب ) على نبرة لأنها:", opts: ["ساكنة بعد كسر  ", "ساكنة بعد فتح ", "مكسورة بعد سكون ", " مفتوحة بعد كسر"], corr: 0 },
-                        { q: "كُتبت الهمزة المتطرفة في كلمة ( شاطِئ ) على ياء غير منقوطة لأنها سبقت بـ: ", opts: [" حرف مكسور", " حرف ساكن", "حرف مضموم ", "حرف مفتوح "], corr: 0 },
-                        { q: "الهمزة في كلمة ( استخرجَ ) هي همزة وصل لأن الكلمة: ", opts: ["ماضي فعل سداسي ", "ماضي فعل رباعي ", " أمر فعل ثلاثي", " اسم من الأسماء العشرة"], corr: 0 },
-                        { q: " كُتبت التاء مبسوطة (مفتوحة) في كلمة ( درَسَتْ ) لأنها:", opts: [" تاء التأنيث الساكنة", "تاء الفاعل المتحركة ", "من أصل الكلمة ", "جمع مؤنث سالم "], corr: 0 },
-                        { q: "كُتبت التاء مربوطة في كلمة ( شجرة ) لأن الكلمة: ", opts: ["اسم مفرد مؤنث ", "جمع تكسير لا ينتهي بداء ", " صفة لمذكر", " فعل ماضٍ"], corr: 0 },
-                        { q: " كُتبت الألف اللينة مقصورة في كلمة ( مستشفى ) لأنها:", opts: ["فوق ثالثة ولم تُسبق بياء ", " أصلها ياء في الفعل الثلاثي", " ثالثة أصلها واو", "فوق ثالثة سُبقت بياء "], corr: 0 },
-                        { q: " كُتبت الألف اللينة ممدودة في كلمة ( دنيا ) لأنها:", opts: ["فوق ثالثة وسُبقت بياء ", "ثالثة أصلها واو ", " فوق ثالثة ولم تُسبق بياء ", " اسم أعجمي"], corr: 0 },
-                        { q: "الوزن الصرفي لكلمة ( قِفْ ) هو: ", opts: [" عِلْ", " فِلْ", "فَعْ ", "تِفْ "], corr: 0 },
-                        { q: " الميزان الصرفي لكلمة ( اندفعَ ) هو:", opts: [" انْفَعَلَ", "افْتَعَلَ ", "تَفَاعَلَ ", "فَعْلَلَ "], corr: 0 },
-                        { q: "نوع المشتق في كلمة ( مستخرِج ) هو: ", opts: [" اسم فاعل من غير الثلاثي", " اسم مفعول ", "اسم زمان ", " صفة مشبهة"], corr: 0 },
-                        { q: "نوع المشتق في كلمة ( مفتاح ) هو: ", opts: ["اسم آلة ", "اسم مكان ", " اسم تفضيل", "مفعول "], corr: 0 },
-                        { q: " المصدر القياسي للفعل ( علَّمَ ) هو:", opts: [" تعليم", " علماً", " تعلُّم", " إعلام"], corr: 0 },
-                        { q: " النوع الصرفي للاسم ( قاضي ) هو اسم:", opts: [" منقوص", "مقصور ", " ممدود", " صحيح الآخر"], corr: 0 },
-                        { q: "نوع العلة الصرفية في كلمة ( قالَ )، (أصلها قَوَلَ) هي: ", opts: [" إعلال بالقلب", "إعلال بالحذف ", "إعلال بالتسكين ", " إبدال"], corr: 0 },
-                        { q: " نوع العلة الصرفية في الفعل الأمر ( عِ )، (من وعى) هي:", opts: ["إعلال بالحذف ", "إعلال بالقلب ", " إعلال بالتسكين", " إبدال صرفي "], corr: 0 },
-                        { q: " المحسن اللفظي الناتج عن توافق أواخر الفواصل في الجمل النثرية (مثل: إنه مَنْ عاش مات، ومَنْ مات فات) يسمى:", opts: [" سجعاً", "جناساً ", " طباقاً", " مقابلة"], corr: 0 },
-                        { q: "نوع التشبيه في جملة ( العلمُ نورٌ ) هو تشبيه: ", opts: [" بليغ", " ام الأركان", "مجمل ", "مؤكد "], corr: 0 },
-                        { q: " الاستعارة المكنية هي تشبيه بليغ حُذف منه:", opts: [" المشبه به وبقيت صفة من صفاته ", "المشبه ", " الأداة ووجه الشبه ", " الطرفان معاً "], corr: 0 },
-                        { q: " المحسن البديعي المعنوي بين كلمتي (العلم والجهل) هو:", opts: ["طباق إيجاب ", "جناس ناقص ", " طباق سلب", "مقابلة "], corr: 0 },
-                        { q: "الأسلوب في جملة ( لا تهملْ واجباتك ) هو أسلوب: ", opts: ["إنشائياً طلبياً  ", " خبراً ابتدائياً", "خبراً إنكارياً ", " إنشائياً غير طلبي"], corr: 0 },
-                        { q: "يندرج البيت القائل: ( ألا فانتبهْ للأمرِ قبلَ التندُّمِ ***** فما انفكَّ خسرانٌ لِمَنْ لم يتفهَّمِ ) تحت العاطفة: ", opts: [" القومية والاجتماعية الشاملة", "الذاتية ", " الوجدانية المحضة", " الإنسانية"], corr: 0 },
-                        { q: "الشعور العاطفي البارز في بيت للشاعر يفتخر بأمجاد وطنه هو شعور: ", opts: ["الاعتزاز والفخر ", " الحزن", "الغضب ", " الشوق والحنين"], corr: 0 },
-                        { q: "الشاعر السوري صاحب قصيدة  / الشهداء / (سمير طحان) يركز في نصه على تمجيد التضحية، بينما قصيدة ( روائع الآثار )  تنتمي إلى محور: ", opts: ["المدينة والحضارة ", " قيم اجتماعية", "وجدانيات ", " أدب المهجر"], corr: 0 },
-                        { q: "في المعجم النظري، لكي نبحث عن معنى كلمة ( يتدارسون ) في معجم يأخذ بأوائل الكلمات (مثل المعجم المدرسي) نردها إلى جذرها وهو: ", opts: [" درس", " دارس", " تدارس", " يدرس"], corr: 0 },
-                        { q: " عند البحث عن كلمة ( تستمعون ) في معجم يأخذ بأواخر الكلمات (مثل القاموس المحيط) نجرّدها إلى (سمع) ونبحث عنها في:", opts: ["باب العين وفصل السين مع مراعاة الميم ", "باب السين وفصل العين ", "باب الميم وفصل العين ", "أول الكلمة مباشرة "], corr: 0 },
-                        { q: "إذا أردنا ترتيب الكلمات التالية (كتب، أخذ، رسم) حسب ورودها في معجم يأخذ بأوائل الكلمات، فإن الترتيب الصحيح هو: ", opts: [" أخذ - رسم - كتب", " كتب - أخذ - رسم", " رسم - كتب - أخذ ", " أخذ - كتب - رسم"], corr: 0 },
-                        { q: " الفكرة الشاملة والملحمة الوجدانية لقصيدة ( المهاجر ) تدور حول معاناة العربي في:", opts: [" الغربة والديار البعيدة ", "الفقر في الوطن ", " الكفاح المسلح", "  الجهل والظلام"], corr: 0 },
-                        { q: " الغرض الشعري الذي ينتمي إليه نص رثاء شهداء الوطن هو:", opts: ["الرثاء ", " الفخر", "الغزل ", " المديح"], corr: 0 },
-                        { q: " من عناصر بناء الرسالة الرسمية أو الشخصية في التعبير الكتابي:", opts: [" التاريخ، والمُرْسَل إليه، والتحية، والمضمون، والاسم والتوقيع", " الحوار السريع فقط", "العقَدة والحل ", " الصور البيانية المعقدة جداً"], corr: 0 },
-                        { q: " البيت الذي يمثل فكرة ( الإصرار على نيل المطلب والحرية مهما طال الزمن ) هو بيت ينتمي إلى قصيدة:", opts: ["  التحرير", " المعلم", "الفنون الجميلة ", " رثاء ابن"], corr: 0 }
-                        
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال لغة عربية رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'english') {
-                    const pool = [
-                        { q: ".Yesterday, my brother ________ a new laptop from the store ", opts: ["bought ", "buys ", " has bought", "buying "], corr: 0 },
-                        { q: " .Listen! Someone ________ the piano in the next room", opts: ["is playing ", "plays ", " played", " play"], corr: 0 },
-                        { q: " .We ________ in Damascus since 2018", opts: ["have lived ", "live ", "are living ", "lived "], corr: 0 },
-                        { q: ".If you ________ your homework early, you can watch TV ", opts: [" finish", " finished", "will finish ", "finishing "], corr: 0 },
-                        { q: " .If I had enough money, I ________ a beautiful house by the sea", opts: ["would buy ", " will buy", " buy", " bought"], corr: 0 },
-                        { q: " .While Maya ________ her room, she found her lost ring", opts: [" was cleaning", "cleans ", " is cleaning", " cleaned"], corr: 0 },
-                        { q: " .The sun ________ us light and heat every day", opts: [" gives ", " give", "gave ", "is giving "], corr: 0 },
-                        { q: ".Look at those black clouds! It ________ rain soon", opts: [" is going to", "will ", " rains", " rained"], corr: 0 },
-                        { q: ".By the time the police arrived, the thief ________ away ", opts: ["had run ", "runs ", " has run", "running "], corr: 0 },
-                        { q: " .Samer is very tired because he ________ the garden all morning", opts: [" has been working", " works", " worked", " is working"], corr: 0 },
-                        { q: ".Mount Hermon is ________ than the coastal hills ", opts: ["  higher", " high", " highest", " the highest"], corr: 0 },
-                        { q: " .Palmyra is one of the ________ historical sites in Syria", opts: [" most famous", " more famous", " famous", "famously "], corr: 0 },
-                        { q: ".English is ________ easy language to learn ", opts: [" an", "a ", " the", "some "], corr: 0 },
-                        { q: ".Ancient castles ________ by thousands of tourists every year ", opts: [" are visited", "visit ", "visited ", "were visiting "], corr: 0 },
-                        { q: ".The Old City of Damascus ________ built thousands of years ago ", opts: [" was", " is", "were ", " has been"], corr: 0 },
-                        { q: " .The teacher ________ helped me with my project was very kind", opts: ["who ", "which ", "where ", " whose"], corr: 0 },
-                        { q: " .This is the hospital ________ my uncle works as a surgeon", opts: [" where", " which", "when ", " who"], corr: 0 },
-                        { q: " .The book ________ you lent me yesterday was very interesting", opts: ["which ", "who ", "whose ", " where"], corr: 0 },
-                        { q: " .________The little boy did the project all by ", opts: ["himself ", "him ", "his ", "he "], corr: 0 },
-                        { q: " .We enjoyed ________ at the school party last week", opts: [" ourselves", " our", " us", " ourselves"], corr: 0 },
-                        { q: ".I don't have ________ money to buy a new car ", opts: ["any ", " many", " some", "a "], corr: 0 },
-                        { q: "?Would you like ________ orange juice ", opts: ["some ", "any ", " many", "a "], corr: 0 },
-                        { q: ".There are too ________ cars on the road today ", opts: ["many ", "much ", "any ", "little "], corr: 0 },
-                        { q: " ?How ________ time do we need to finish this project", opts: ["much ", "many ", " long", "often "], corr: 0 },
-                        { q: ".Ali always travels to Tartous ________ train ", opts: [" by", " on", " with", " in"], corr: 0 },
-                        { q: " .They went up the hill ________ foot to see the sunset", opts: [" on", "by ", " with", "through "], corr: 0 },
-                        { q: "?Are you good ________ solving difficult math problems ", opts: ["at ", "in ", "with ", " for"], corr: 0 },
-                        { q: " .Syria is famous ________ its hospitality and ancient history", opts: [" for ", " in", "with ", "of "], corr: 0 },
-                        { q: " .My brother is interested ________ collecting old stamps", opts: ["in ", "on ", "at ", "for "], corr: 0 },
-                        { q: " .We are looking forward ________ visiting Palmyra next month", opts: ["to ", "for ", "at ", " in"], corr: 0 },
-                        { q: " .You must ________ up the new words in a dictionary", opts: ["  look", "give ", "take ", " put"], corr: 0 },
-                        { q: " .Never give ________ your dreams. Keep practicing", opts: ["up ", " in", "out ", "off "], corr: 0 },
-                        { q: ".It's cold outside. You should ________ on your heavy coat ", opts: [" put", "take ", "look ", "fill "], corr: 0 },
-                        { q: ".The plane will ________ off at 9 o'clock tomorrow morning ", opts: ["take ", " put", "look ", " turn"], corr: 0 },
-                        { q: ".Please turn ________ the music. It is too loud, I can't study ", opts: ["down ", " up", "on ", "in "], corr: 0 },
-                        { q: " .Plastic recycling helps to ________ the environment", opts: ["  protect", " pollute", " destroy", "waste "], corr: 0 },
-                        { q: " .Caravanserais were built to provide ________ for travelers in ancient times", opts: [" shelter / safety", " danger", "pollution ", " crowd"], corr: 0 },
-                        { q: ".________ A person who design buildings is called an ", opts: ["architect ", "archaeologist ", "engineer ", "astronomer "], corr: 0 },
-                        { q: " .We need to turn off the taps to avoid ________ water", opts: ["wasting ", "saving ", " cleaning", "protecting "], corr: 0 },
-                        { q: ".Damascus is the ________ city in the world ", opts: [" oldest", " newest", "smallest ", "coldest "], corr: 0 },
-                        { q: ".You ________ smoke in the hospital. It's against the law ", opts: ["mustnot / mustn't ", "must ", "don't have to ", " shouldn't"], corr: 0 },
-                        { q: ".I ________ speak English when I was only five years old ", opts: ["could ", " can", " will", "must "], corr: 0 },
-                        { q: "<br>?A:________ did you go to the hospital yesterday<br>.B:Because I was sick", opts: [" Why", " What", "Where ", " When"], corr: 0 },
-                        { q: "<br>?A:________ is your school from your house<br>.B:About 2 kilometers", opts: [" How far", "How much ", " How long", "How often "], corr: 0 },
-                        { q: "<br>?A:________ do you visit the library<br>.B:Twice a week", opts: [" How often ", "How much ", "How many ", "How long "], corr: 0 },
-                        { q: ".Hasan prefers ________ stories in his free time", opts: ["reading ", "read ", "reads ", "to reading "], corr: 0 },
-                        { q: ".I don't mind ________ you with your English homework", opts: [" helping", "help ", " to help ", "helped "], corr: 0 },
-                        { q: "?You study hard, ________ you", opts: [" don't you", "don't ", " do you", " aren't you"], corr: 0 },
-                        { q: "?Rami didn't pass the driving test, ________ he", opts: ["did he ", "didnot ", " does he", "wasn't he "], corr: 0 },
-                        { q: ".Students ________ wear a school uniform. It is mandatory", opts: [" have to", "shouldn't ", "mustn't ", " may"], corr: 0 }
-                
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال إنجليزي رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'french') {
-                    const pool = [
-                        { q: ".Demain, nous ________ visiter le musée de Damas", opts: ["visiterons ", " visitons", "avons visité ", "visitaient "], corr: 0 },
-                        { q: ".Hier, Sami ________ un beau documentaire sur l'environnement", opts: ["a regardé ", "regarde ", " regardera", "regardes "], corr: 0 },
-                        { q: ".Chaque jour, les élèves ________ à vélo à l'école", opts: [" vont\"chaque jour\"", " vont", " iront", " sont allés"], corr: 0 },
-                        { q: ".Quand j'étais jeune, je ________ beaucoup de sport", opts: [" faisais ", " fais", "ferai ", "ai fait "], corr: 0 },
-                        { q: ".Il faut que tu ________ tes devoirs avant de sortir ", opts: [" fasses", " fais", "feras ", " a fait"], corr: 0 },
-                        { q: ".Si tu étudies bien, tu ________ à l'examen ", opts: ["  réussiras", "réussis ", "réussirais ", " as réussi"], corr: 0 },
-                        { q: ".Si j'avais du temps, je ________ au club avec toi", opts: ["irais ", "vais ", "irai ", "  suis allé"], corr: 0 },
-                        { q: "!Ne ________ pas tes déchets par terre ", opts: [" jette ", " jettes", " jettera", "jeter "], corr: 0 },
-                        { q: ".Nous ________ de finir notre projet de classe il y a cinq minutes", opts: ["venons ", " venons", " allons", " sommes"], corr: 0 },
-                        { q: ".Les enfants ________ manger leur repas dans un instant ", opts: ["vont ", " viennent", " ont", " font"], corr: 0 },
-                        { q: ".J'aime ce livre, je ________ lis chaque soir", opts: [" le", " la", "lui ", " les"], corr: 0 },
-                        { q: "<br>\".A:Il téléphone à son ami\"<br>.B:Il ________ téléphone ", opts: ["lui ", "le ", "la ", "leur "], corr: 0 },
-                        { q: "<br>\".A:Les profs expliquent la leçon aux élèves\"<br>.B:Ils ________ expliquent la leçon", opts: ["leur ", "lui ", "les ", "en "], corr: 0 },
-                        { q: "<br>\"?A:Tu veux du gâteau\"<br>.B:Oui, je ________ veux ", opts: [" en", "le ", "la ", " y"], corr: 0 },
-                        { q: "<br>\"?A:Tu vas à la bibliothèque\"<br>.B:Oui, j'________ vais ", opts: ["y ", "en ", "le ", "la "], corr: 0 },
-                        { q: ".C'est ________ excellente idée pour protéger la nature", opts: ["une ", "un ", "des ", " le"], corr: 0 },
-                        { q: ".________ citadelle d'Alep est un grand monument historique", opts: ["La ", "Le ", "Les ", "Un "], corr: 0 },
-                        { q: ".Il mange ________ viande et des légumes au dîner", opts: ["  de la", " du", "des ", "le "], corr: 0 },
-                        { q: ".C'est le garçon ________ a gagné le premier prix", opts: ["qui ", "que ", " où", "dont "], corr: 0 },
-                        { q: ".La robe ________ tu as achetée est très jolie", opts: ["que ", "qui ", " où", "dont "], corr: 0 },
-                        { q: ".Mon oncle vit ________ Paris depuis trois ans", opts: ["à ", "en ", "au ", "aux "], corr: 0 },
-                        { q: ".Sami va voyager ________ France l'été prochain", opts: ["en ", "au ", "à ", "aux "], corr: 0 },
-                        { q: ".Mon cousin habite ________ Liban", opts: ["au ", "en ", "à ", " aux"], corr: 0 },
-                        { q: ".Les élèves vont à l'école ________ bus", opts: [" en / par", "en ", " à", "de "], corr: 0 },
-                        { q: ".Il va au marché ________ pied car c'est tout près", opts: [" à", " en", "en ", " en"], corr: 0 },
-                        { q: ".Ce travail est fait ________ soin par les bénévoles", opts: ["avec ", " sans", " pour", "dans "], corr: 0 },
-                        { q: ".Il étudie beaucoup ________ réussir à son examen", opts: ["pour ", "parce que ", " car", "mais "], corr: 0 },
-                        { q: ".Il est absent ________ il est malade", opts: ["parce qu' / parce que ", "pour ", "donc ", "afin de "], corr: 0 },
-                        { q: ".Il a beaucoup plu, ________ le match est annulé", opts: ["donc ", " car", "mais ", "parce que "], corr: 0 },
-                        { q: ".Ce projet est utile ________ difficile à réaliser", opts: [" mais ", " car", "donc ", "parce que "], corr: 0 },
-                        { q: "<br>\"?A:________Tu vas encore au cinéma\"<br>.B:Non, je n'y vais ", opts: ["plus ", "pas ", "jamais ", "rien "], corr: 0 },
-                        { q: "<br>\"?A:Tu as vu quelqu'un dans la cour\"<br>._______B:Non, je n'ai vu", opts: [" personne", " pas", "plus ", "rien "], corr: 0 },
-                        { q: "<br>\"?A:Tu as acheté quelque chose\"<br>.B:Non, je n'ai ________ acheté", opts: ["rien ", " personne", "jamais ", " plus"], corr: 0 },
-                        { q: "<br>\"?A:vas-tu passer tes vacances\"<br>._______B:À Lattaquié ", opts: ["Où ", " Quand", "Pourquoi ", "Comment "], corr: 0 },
-                        { q: "<br>\"?A:coûte ce dictionnaire\"<br>._______B:Il coûte 2000 SP", opts: [" Combien", "Quel ", " Qui", " Comment"], corr: 0 },
-                        { q: "<br>\"?A:est ton sport préféré\"<br>._______B:C'est le football", opts: ["Quel ", "Quelle ", " Quels", "Quelles "], corr: 0 },
-                        { q: " ?________ sont tes chansons préférées ", opts: ["Quelles ", " Quel", " Quelle", "Quels "], corr: 0 },
-                        { q: ".C'est une ________ histoire qui parle de la solidarité", opts: ["  belle ", "beau ", "beaux ", "belles "], corr: 0 },
-                        { q: ".Les enfants sont très ________ de visiter Palmyre", opts: ["heureux ", "heureux ", "heureuse ", " heureuses"], corr: 0 },
-                        { q: ".Ces filles sont très ________ en classe", opts: ["actives ", " actif", " actifs", "active "], corr: 0 },
-                        { q: ".Pour exprimer la solidarité, on dit:Il faut ________ les pauvres", opts: ["aider ", "ignorer ", "polluer ", "détruire "], corr: 0 },
-                        { q: ".________Le recyclage des déchets aide à réduire la", opts: [" pollution", "propreté ", "protection ", "nature "], corr: 0 },
-                        { q: "<br>.Un ________ est une personne qui travaille sans recevoir d'argent pour aider la société ", opts: ["bénévole  ", " directeur", "médecin ", "guide "], corr: 0 },
-                        { q: ".________:Pour accepter une invitation, on dit", opts: ["Avec plaisir ! / Volontiers ! ", "Désolé, je ne peux pas ", "C'est impossible ", "Je refuse "], corr: 0 },
-                        { q: ".________:Pour proposer une activité, on utilise l'expression", opts: ["Ça te dit de... ? / Si on... ? ", "Je ne veux pas ", "C'est interdit ", "  Merci beaucoup"], corr: 0 },
-                        { q: ".Planter des arbres est un bon geste pour ________ l'environnement", opts: [" protéger / préserver", "détruire ", "polluer ", " gaspiller"], corr: 0 },
-                        { q: ".________:Le mot \"économiser\" l'eau signifie", opts: ["ne pas gaspiller l'eau ", "  jeter l'eau", " salir l'eau", "consommer trop "], corr: 0 },
-                        { q: ".________:Une campagne de sensibilisation sert à", opts: [" informer et sensibiliser les gens sur un problème", " vendre des produits", "faire du sport ", " voyager"], corr: 0 },
-                        { q: ".________:Le synonyme de \"magnifique\" est ", opts: ["très beau / splendide ", "mauvais ", "difficile ", " petit"], corr: 0 },
-                        { q: ".________:L'antonyme (le contraire) de \"propre\" est", opts: ["sale  ", "pur ", "sain ", " net"], corr: 0 }
-                        
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال فرنسي رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                else if (subjectId === 'islamic') {
-                    const pool = [
-                        { q: " الآية الكريمة التي تدل على التفكّر والتدبّر في خلق الكون هي:", opts: [" \"إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالأَرْضِ وَاخْتِلافِ اللَّيْلِ وَالنَّهَارِ لآيَاتٍ لأُولِي الأَلْبَابِ\"", "\"اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ\" ", "\"إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ\" ", "\"وَأَقِيمُوا الصَّلاةَ وَآتُوا الزَّكَاةَ\" "], corr: 0 },
-                        { q: "معنى كلمة \"لأُولي الألباب\" في الآيات القرآنية الكريمة هو: ", opts: [" لأصحاب العقول المفكرة", "لأصحاب الأموال ", "للناس جميعاً ", "للمسافرين "], corr: 0 },
-                        { q: "حكم التجويد في قوله تعالى (مِنْ بَعْدِ) هو حكم: ", opts: [" إقلاب", "إظهار ", " إدغام", " إخفاء"], corr: 0 },
-                        { q: " تُعرّف العقيدة الإسلامية الصحيحة بأنها التصديق الجازم بـ:", opts: ["  أركان الإيمان الستة واليقين بالله تعالى", "أحكام الفقه فقط ", " السيرة النبوية فقط ", "التاريخ الإسلامي المعاصر "], corr: 0 },
-                        { q: " الإيمان باليوم الآخر يتضمن اليقين بالبعث والنشور، والحكمة الأساسية من اليوم الآخر هي:", opts: [" تحقيق العدالة الإلهية ومحاسبة العباد على أعمالهم", " معرفة نهاية العالم فقط", " تنظيم حياة الناس في الدنيا", "  التباهي بالأعمال الصالحة"], corr: 0 },
-                        { q: " جاء في الحديث الشريف:\"المسلم مَنْ سَلِمَ المسلمون من......\"، التتمة الصحيحة للحديث هي:", opts: [" لسانِهِ ويدِهِ", "يده وفعلِهِ ", " غضبِهِ وقولِهِ", "حسدِهِ وبُغضِهِ "], corr: 0 },
-                        { q: " التفسير الصحيح لمفهوم \"الرحمة\" في الإسلام بناءً على التوجيهات النبوية هو أنها:", opts: [" خُلُقٌ إنساني وعالمي يشمل البشر والحيوان والطبيعة", "تشمل المسلمين فقط ", "تقتصر على الأقارب والوالدين ", "التنازل عن الحقوق دائماً "], corr: 0 },
-                        { q: " تُعرّف \"الزكاة\" في الفقه الإسلامي بأنها:", opts: ["مقدار مخصوص من المال يدفعه الغني للفقير بشروط محددة ", "تبرع اختياري في أي وقت ", "صيام شهر رمضان المبارك ", "بناء المساجد والمستشفيات "], corr: 0 },
-                        { q: " الحكم الشرعي لمعاملة \"الربا\" في الإسلام هو:", opts: [" التحريم القطعي لما فيه من استغلال وظلم", "الإباحة المطلقة ", " الكراهية فقط", "الإباحة في حالات الضرورة الشخصية "], corr: 0 },
-                        { q: " الفرق الأساسي بين \"البيع\" و\"الربا\" في المنظور الإسلامي هو أن البيع قائم على:", opts: [" المنفعة المتبادلة والجهد والربح والخسارة", "الاستغلال والاحتكار ", "أخذ المال دون مقابل ", " القوة والسيطرة"], corr: 0 },
-                        { q: "شريعة الإسلام أباحت للمسافر القصر والجمع في الصلاة، ويُعتبر هذا الحكم دليلاً على ميزة: ", opts: [" اليسر ورفع الحرج والتيسير على العباد", " التعصب", "التشدد في العبادات ", "الخوف من السفر "], corr: 0 },
-                        { q: "عقد الزواج في الإسلام يقوم في أصله وجوهره على: ", opts: [" السكن والمودة والرحمة وبناء الأسرة المستقرة ", "تبادل المصالح المادية المؤقتة ", "السيطرة التامة لأحد الطرفين ", "  المظاهر الاجتماعية الفاخرة"], corr: 0 },
-                        { q: " أولى الناس بالرعاية والبر والاحترام بنص القرآن الكريم والحديث الشريف هما:", opts: ["الوالدان ", " الأصدقاء والزملاء", "الجيران فقط ", " المعلمون في المدرسة"], corr: 0 },
-                        { q: " الوثيقة التاريخية التي وضعها النبي محمد ﷺ لتنظيم العلاقات بين سكان المدينة وتحقيق المواطنة هي:", opts: [" صحيفة المدينة", "صلح الحديبية ", " خطبة الوداع", "بيعة العقبة الثانية "], corr: 0 },
-                        { q: " أول عمل قام به النبي ﷺ بعد وصوله إلى المدينة المنورة واستقراره فيها هو:", opts: ["بناء المسجد وتآخي المهاجرين والأنصار ", "  إعلان الحرب على الأعداء", " جمع الأموال وتوزيعها", " تعيين الولاة والقضاة"], corr: 0 },
-                        { q: "الصحابي الجليل الذي لُقّب بـ \"أمين هذه الأمة\" هو: ", opts: ["أبو عبيدة عامر بن الجراح ", "خالد بن الوليد ", "عمر بن الخطاب ", "أبو بكر الصديق "], corr: 0 },
-                        { q: " المبدأ الشوري الذي طبقه النبي ﷺ في معركة الخندق بناءً على نصيحة سلمان الفارسي يعكس أهمية:", opts: [" الشورى وتبادل الآراء والخبرات", "الاستبداد بالرأي ", " التراجع أمام العدو ", "الاعتماد على الحظ "], corr: 0 },
-                        { q: " يُقصد بالمفهوم الإسلامي \"الوقف الخيري\":", opts: ["  حبس العين والتصدق بمنفعتها بشكل دائم في وجوه الخير", "بيع الأموال وتوزيع قيمتها فوراً ", "دفع الضرائب للدولة ", " ادخار المال الشخصي في البنوك"], corr: 0 },
-                        { q: " النهج الذي تتبعه التربية الإسلامية في التعامل مع المخالفين في الدين يرتكز على:", opts: [" لحوار بالتي هي أحسن، والتسامح، واحترام العهود", " القسوة والإجبار", " المقاطعة الاقتصادية التامة", "تجاهل وجودهم "], corr: 0 },
-                        { q: " القيمة الاجتماعية المفروضة التي تسهم في حماية المجتمع من الغش والفساد والجرائم هي:", opts: ["الأمانة والمسؤولية المجتمعية ", " العزلة عن الناس ", "الاهتمام بالمصالح الفردية فقط ", " الصمت عن المنكر "], corr: 0 },
-                        { q: "مفهوم \"الحرية\" في الإسلام ينتهي عندما: ", opts: ["تبدأ حرية الآخرين أو يتم تجاوز الأحكام الشرعية والنظام العام ", "يقرر الفرد ذلك بنفسه ", "يسافر الفرد خارج بلده ", "يتعلم العلوم الحديثة "], corr: 0 },
-                        { q: " العمل والسعي لكسب الرزق في التربية الإسلامية يُعتبر:", opts: [" عبادةً وواجباً وسبباً لرفعة الإنسان واستقلاله", "فضولاً وضياعاً للوقت ", " مباحاً فقط لمن لا يملك مالاً ", "مقتصراً على العبادات التعبدية "], corr: 0 },
-                        { q: " موقف الإسلام من العلم التجريبي والبحث العلمي يقوم على:", opts: ["الحث عليه وربطه بخشية الله تعالى وعمارة الأرض ", " التحذير منه", "اعتباره ثانوياً لا قيمة له ", " فصله تماماً عن الحياة اليومية"], corr: 0 },
-                        { q: "خُلُق \"التواضع\" كما علّمه النبي ﷺ يثمر في المجتمع: ", opts: ["المحبة والألفة وإزالة الأحقاد والفوارق الطبقية ", "الخوف والضعف ", "الكسل وعدم الإنتاجية ", "التراجع عن الطموح "], corr: 0 },
-                        { q: " الصيغة التاريخية المعتمدة لإنهاء مظاهر الجاهلية والتأكيد على حقوق الإنسان والنساء أعلنها النبي ﷺ في:", opts: [" خطبة وداع النبي ﷺ", " صلح الحديبية", " فتح مكة ", "غزوة بدر الكبرى "], corr: 0 }
-    
-                    ];
-                    let item = pool[(i - 1) % pool.length];
-                    qText = `(${i}) سؤال تربية إسلامية فريد رقم ${i}: ${item.q}`;
-                    options = [...item.opts];
-                    correct = item.corr;
-                }
-                let originalCorrectText = options[correct];
-                let shuffledOpts = options.map((opt, idx) => ({ text: opt, isCorrect: idx === correct }));
-                for (let j = shuffledOpts.length - 1; j > 0; j--) {
-                    let k = Math.floor(Math.random() * (j + 1));
-                    let temp = shuffledOpts[j];
-                    shuffledOpts[j] = shuffledOpts[k];
-                    shuffledOpts[k] = temp;
-                }
-                let finalOpts = shuffledOpts.map(item => item.text);
-                let newCorrectIndex = shuffledOpts.findIndex(item => item.isCorrect);
-                questions.push({
-                    id: i,
-                    text: `السؤال الامتحاني (${i}): ${originalCorrectText ? qText.split(': ')[1] || qText : qText}`,
-                    options: finalOpts,
-                    correct: newCorrectIndex
-                });
-            }
-            return questions;
-        }
-        function startQuiz(subId) {
-            currentSubjectId = subId;
-            currentQuestions = generateQuestions(subId);
-            currentIndex = 0;
-            userAnswers = {};
-            const subObj = subjects.find(s => s.id === subId);
-            document.getElementById('current-subject-title').innerText = subObj.name;
-            document.getElementById('total-q-label').innerText = subObj.count;
-            document.getElementById('total-q-num').innerText = subObj.count;
-            document.getElementById('current-subject-icon').className = `w-12 h-12 rounded-xl flex items-center justify-center text-2xl text-white shadow bg-gradient-to-tr ${subObj.color}`;
-            document.getElementById('current-subject-icon').innerHTML = `<i class="fa-solid ${subObj.icon}"></i>`;
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('completion-view').classList.add('hidden');
-            document.getElementById('quiz-view').classList.remove('hidden');
-            document.getElementById('header-nav-btn').classList.remove('hidden');
-            updateLiveCounters();
-            renderQuestion();
-        }
-        function updateLiveCounters() {
-            let correctCount = 0;
-            let incorrectCount = 0;
-            for (let idx in userAnswers) {
-                let ans = userAnswers[idx];
-                let q = currentQuestions[idx];
-                if (ans === q.correct) {
-                    correctCount++;
-                } else {
-                    incorrectCount++;
-                }
-            }
-            document.getElementById('live-correct-count').innerText = correctCount;
-            document.getElementById('live-incorrect-count').innerText = incorrectCount;
-        }
-        function renderQuestion() {
-            const q = currentQuestions[currentIndex];
-            document.getElementById('current-q-num').innerText = currentIndex + 1;
-            document.getElementById('question-text').innerHTML = q.text;
-            const optContainer = document.getElementById('options-container');
-            optContainer.innerHTML = '';
-            const hasAnswered = userAnswers[currentIndex] !== undefined;
-            const selectedOpt = userAnswers[currentIndex];
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                let btnClasses = "w-full text-right p-4 rounded-2xl border font-semibold text-sm md:text-base transition duration-200 flex items-center justify-between ";
-                if (hasAnswered) {
-                    if (idx === q.correct) {
-                        btnClasses += "bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm";
-                    } else if (idx === selectedOpt && idx !== q.correct) {
-                        btnClasses += "bg-rose-50 border-rose-500 text-rose-800 shadow-sm animate-shake";
-                    } else {
-                        btnClasses += "bg-white border-slate-200 text-slate-500 opacity-60";
-                    }
-                    btn.disabled = true;
-                } else {
-                    btnClasses += "bg-white border-slate-200 text-slate-700 hover:border-indigo-500 hover:bg-indigo-50/30 shadow-sm";
-                    btn.onclick = () => selectAnswer(idx);
-                }
-                btn.className = btnClasses;
-                let iconHtml = '';
-                if (hasAnswered) {
-                    if (idx === q.correct) {
-                        iconHtml = '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>';
-                    } else if (idx === selectedOpt && idx !== q.correct) {
-                        iconHtml = '<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i>';
-                    }
-                }
-                btn.innerHTML = `<span>${opt}</span> ${iconHtml}`;
-                optContainer.appendChild(btn);
-            });
-            document.getElementById('prev-btn').disabled = currentIndex === 0;
-            const nextBtn = document.getElementById('next-btn');
-            if (currentIndex === currentQuestions.length - 1) {
-                nextBtn.innerHTML = `إنهاء الاختبار <i class="fa-solid fa-flag-checkered"></i>`;
-            } else {
-                nextBtn.innerHTML = `التالي <i class="fa-solid fa-arrow-left"></i>`;
-            }
-            updateNavigator();
-        }
-        function selectAnswer(optIdx) {
-            userAnswers[currentIndex] = optIdx;
-            const q = currentQuestions[currentIndex];
-            if (optIdx === q.correct) {
-                confetti({
-                    particleCount: 90,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
-            }
-            updateLiveCounters();
-            renderQuestion();
-        }
-        function showCompletion() {
-            let correctCount = 0;
-            currentQuestions.forEach((q, idx) => {
-                if (userAnswers[idx] === q.correct) {
-                    correctCount++;
-                }
-            });
-            document.getElementById('final-total').innerText = currentQuestions.length;
-            document.getElementById('final-correct').innerText = correctCount;
-            renderWrongReview();
-
-            document.getElementById('quiz-view').classList.add('hidden');
-            document.getElementById('completion-view').classList.remove('hidden');
-        }
-        function restartQuiz() {
-            userAnswers = {};
-            currentIndex = 0;
-            document.getElementById('completion-view').classList.add('hidden');
-            document.getElementById('quiz-view').classList.remove('hidden');
-            updateLiveCounters();
-            renderQuestion();
-        }
-        function returnToHome() {
-            initHome();
-        }
-        window.onload = function() {
-            initHome();
-        };
-    
-        // ===== شريط أرقام الأسئلة =====
-        function updateNavigator() {
-            const navBar = document.getElementById('questions-navigator-bar');
-            if (navBar.children.length !== currentQuestions.length) {
-                navBar.innerHTML = '';
-                currentQuestions.forEach((_, idx) => {
-                    const btn = document.createElement('button');
-                    btn.id = `q-nav-btn-${idx}`;
-                    btn.innerText = idx + 1;
-                    btn.onclick = () => goToQuestion(idx);
-                    navBar.appendChild(btn);
-                });
-            }
-            const base = 'min-w-[2.5rem] h-10 px-3 rounded-xl font-bold text-sm transition flex items-center justify-center shrink-0 border ';
-            currentQuestions.forEach((q, idx) => {
-                const btn = navBar.children[idx];
-                const ans = userAnswers[idx];
-                let style;
-                if (idx === currentIndex) {
-                    style = 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-105';
-                } else if (ans === undefined) {
-                    style = 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100';
-                } else if (ans === q.correct) {
-                    style = 'bg-emerald-50 text-emerald-700 border-emerald-300';
-                } else {
-                    style = 'bg-rose-50 text-rose-700 border-rose-300';
-                }
-                btn.className = base + style;
-            });
-            const activeBtn = navBar.children[currentIndex];
-            if (activeBtn) {
-                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            }
-        }
-
-        function goToQuestion(index) {
-            currentIndex = index;
-            renderQuestion();
-        }
-
-        function nextQuestion() {
-            if (currentIndex < currentQuestions.length - 1) {
-                goToQuestion(currentIndex + 1);
-            } else {
-                showCompletion();
-            }
-        }
-
-        function prevQuestion() {
-            if (currentIndex > 0) {
-                goToQuestion(currentIndex - 1);
-            }
-        }
-
-        // ===== مراجعة الإجابات الخاطئة بعد إنهاء الاختبار =====
-        function renderWrongReview() {
-            const box = document.getElementById('wrong-review');
-            const wrong = [];
-            let answered = 0;
-            currentQuestions.forEach((q, idx) => {
-                const ans = userAnswers[idx];
-                if (ans === undefined) return;
-                answered++;
-                if (ans !== q.correct) wrong.push(idx);
-            });
-            const skipped = currentQuestions.length - answered;
-            document.getElementById('final-wrong').innerText = wrong.length;
-
-            let html = '';
-            if (answered === 0) {
-                html += `<div class="bg-slate-50 border border-slate-200 text-slate-600 rounded-2xl p-4 text-sm font-bold text-center">لم تُجب عن أي سؤال.</div>`;
-            } else if (wrong.length === 0) {
-                html += `<div class="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-2xl p-4 text-sm font-bold text-center"><i class="fa-solid fa-star ml-1"></i> ممتاز! لا توجد أي إجابة خاطئة.</div>`;
-            } else {
-                html += `<h4 class="text-lg font-black text-slate-900 flex items-center gap-2"><i class="fa-solid fa-circle-xmark text-rose-600"></i> الأسئلة التي أخطأت فيها (${wrong.length})</h4>`;
-                wrong.forEach(idx => {
-                    const q = currentQuestions[idx];
-                    html += `
-                    <div class="bg-rose-50/40 border border-rose-100 rounded-2xl p-4 space-y-3">
-                        <div class="flex items-start gap-3">
-                            <span class="shrink-0 bg-rose-100 text-rose-700 text-xs font-black rounded-lg px-2.5 py-1">${idx + 1}</span>
-                            <p class="font-bold text-slate-900 text-sm md:text-base leading-relaxed">${q.text}</p>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm font-semibold">
-                            <div class="bg-white border border-rose-300 text-rose-700 rounded-xl p-3 flex items-start gap-2">
-                                <i class="fa-solid fa-circle-xmark mt-0.5"></i>
-                                <span><span class="block text-xs opacity-70">إجابتك</span>${q.options[userAnswers[idx]]}</span>
-                            </div>
-                            <div class="bg-white border border-emerald-300 text-emerald-700 rounded-xl p-3 flex items-start gap-2">
-                                <i class="fa-solid fa-circle-check mt-0.5"></i>
-                                <span><span class="block text-xs opacity-70">الإجابة الصحيحة</span>${q.options[q.correct]}</span>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-            }
-            if (skipped > 0 && answered > 0) {
-                html += `<p class="text-xs text-slate-500 font-semibold text-center">عدد الأسئلة التي لم تُجب عنها: ${skipped}</p>`;
-            }
-            box.innerHTML = html;
-        }
-
-    </script>
-
-<!-- استدعاء مكتبات Firebase للويب -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // إعدادات مشروعك في Firebase
-        const firebaseConfig = {
+    const firebaseConfig = {
             apiKey: "AIzaSyCugm8mwLKrLWC8uffSZZIeit26bp0IUtM",
             authDomain: "my-free-test-learn.firebaseapp.com",
             projectId: "my-free-test-learn",
@@ -1070,79 +274,43 @@
             appId: "1:370959108353:web:738e326cf52826908a3300",
             measurementId: "G-Z3QQZCZF51"
         };
+    const db = getFirestore(initializeApp(firebaseConfig));
 
-        // تهيئة النظام وربط قاعدة البيانات
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    let deviceId = null;
+    try { deviceId = localStorage.getItem('device_id') || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random()); localStorage.setItem('device_id', deviceId); } catch { deviceId = 'unknown'; }
 
-        // دالة التحقق من الكود مع رسائل خطأ دقيقة
-        async function verifyAccessCodeFirebase() {
-            const inputVal = document.getElementById('access-code-input').value.trim();
-            const errDiv = document.getElementById('login-error');
+    // يبحث عن الكود: أولاً كمعرّف وثيقة (الأسرع والأأمن مع القواعد)، ثم بالحقل keyValue للأكواد القديمة
+    async function findKey(raw) {
+        const code = raw.trim().toUpperCase();
+        try { const s = await getDoc(doc(db, 'keys', code)); if (s.exists()) return s.ref; } catch (e) {}
+        try {
+            const qs = await getDocs(query(collection(db, 'keys'), where('keyValue', 'in', [...new Set([code, raw.trim()])])));
+            if (!qs.empty) return qs.docs[0].ref;
+        } catch (e) {}
+        return null;
+    }
 
-            if (!inputVal) {
-                errDiv.style.color = "#e11d48"; // لون أحمر
-                errDiv.innerText = "الرجاء إدخال كود التفعيل!";
-                errDiv.classList.remove('hidden');
-                return;
-            }
-
-            errDiv.style.color = "#2563eb"; // لون أزرق أثناء البحث
-            errDiv.innerText = "جاري التحقق من قاعدة البيانات...";
-            errDiv.classList.remove('hidden');
-
-            try {
-                const keysRef = collection(db, "keys");
-                const q = query(keysRef, where("keyValue", "==", inputVal));
-                const querySnapshot = await getDocs(q);
-
-                // الحالة الأولى: الكود غير موجود نهائياً في القاعدة (خطأ)
-                if (querySnapshot.empty) {
-                    errDiv.style.color = "#e11d48";
-                    errDiv.innerText = "❌ الكود غير صحيح، يرجى التأكد من المدخلات أو طلب كود جديد.";
-                    return;
+    window.verifyCode = async (raw) => {
+        try {
+            const ref = await findKey(raw);
+            if (!ref) return { ok: false, msg: 'الكود غير صحيح. تأكد من كتابته أو اطلب كوداً جديداً.' };
+            // معاملة ذرية: لا يمكن لشخصين تفعيل الكود نفسه معاً
+            return await runTransaction(db, async (tx) => {
+                const s = await tx.get(ref);
+                if (!s.exists()) return { ok: false, msg: 'الكود غير صحيح.' };
+                const d = s.data();
+                if (d.isActive === false) {
+                    if (d.usedBy && d.usedBy === deviceId) return { ok: true };
+                    return { ok: false, warn: true, msg: 'هذا الكود مستخدم مسبقاً ولا يمكن إعادة استخدامه.' };
                 }
-
-                let keyDocSnap = null;
-                querySnapshot.forEach((document) => {
-                    keyDocSnap = document;
-                });
-
-                const keyData = keyDocSnap.data();
-                const keyDocId = keyDocSnap.id;
-
-                // الحالة الثانية: الكود موجود لكنه مستخدم من قبل (isActive معطلة)
-                if (keyData.isActive === false) {
-                    errDiv.style.color = "#ea580c"; // لون برتقالي تحذيري
-                    errDiv.innerText = "⚠️ عذراً، هذا المفتاح مستخدم مسبقاً من قبل شخص آخر ولا يمكن إعادة استخدامه!";
-                    return;
-                }
-
-                // الحالة الثالثة: الكود صحيح وغير مستخدم -> قفله والدخول للمنصة
-                const selectedKeyRef = doc(db, "keys", keyDocId);
-                await updateDoc(selectedKeyRef, {
-                    isActive: false
-                });
-
-                localStorage.setItem('bound_device_code', inputVal);
-                document.getElementById('login-view').classList.add('hidden');
-
-            } catch (error) {
-                console.error("خطأ في الاتصال:", error);
-                errDiv.style.color = "#e11d48";
-                errDiv.innerText = "حدث خطأ في الاتصال بقاعدة البيانات. تأكد من اتصالك بالإنترنت.";
-            }
+                tx.update(ref, { isActive: false, usedBy: deviceId, usedAt: serverTimestamp() });
+                return { ok: true };
+            });
+        } catch (e) {
+            console.error(e);
+            return { ok: false, msg: 'تعذّر الاتصال بقاعدة البيانات. تأكد من الإنترنت وأعد المحاولة.' };
         }
-
-        // ربط الزر برمجياً
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginBtn = document.querySelector('button[onclick*="verifyAccessCode"]') || document.getElementById('login-btn');
-            if (loginBtn) {
-                loginBtn.removeAttribute('onclick');
-                loginBtn.addEventListener('click', verifyAccessCodeFirebase);
-            }
-        });
-    </script>
-
+    };
+</script>
 </body>
 </html>
