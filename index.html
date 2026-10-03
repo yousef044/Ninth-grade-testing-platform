@@ -40,6 +40,22 @@
         .animate-shake {
             animation: shake 0.4s ease-in-out;
         }
+        /* ضع كود التنسيقات هنا */
+        .no-scrollbar::-webkit-scrollbar {
+            height: 6px;
+        }
+        .no-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .no-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .no-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-50 via-slate-50 to-blue-100 min-h-screen text-slate-800 flex flex-col">
@@ -100,6 +116,7 @@
             </div>
         </div>
         <div id="quiz-view" class="hidden space-y-6">
+            <!-- معلومات الاختبار العلوية -->
             <div class="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-slate-100 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div id="current-subject-icon" class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl text-white shadow"></div>
@@ -107,7 +124,7 @@
                         <h3 id="current-subject-title" class="text-lg md:text-xl font-bold text-slate-900"></h3>
                         <p class="text-xs text-slate-500">بنك الأسئلة الامتحانية (<span id="total-q-label">100</span> سؤال)</p>
                     </div>
-                </div> 
+                </div>
                 <div class="flex items-center gap-3">
                     <div class="bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-2 text-emerald-700 font-bold text-xs md:text-sm">
                         <i class="fa-solid fa-circle-check text-emerald-600"></i> صحيح: <span id="live-correct-count">0</span>
@@ -125,9 +142,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- شريط أرقام الأسئلة (تمرير أفقي) -->
+            <div id="questions-navigator-bar" class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth"></div>
+
+            <!-- صندوق السؤال وخياراته -->
             <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 space-y-6 relative overflow-hidden">
                 <div id="question-text" class="text-lg md:text-xl font-bold text-slate-900 leading-relaxed min-h-[4rem] flex items-center"></div>
                 <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"></div>
+
+                <!-- أزرار السابق / التالي تحت السؤال -->
                 <div class="flex items-center justify-between pt-4 border-t border-slate-100">
                     <button id="prev-btn" onclick="prevQuestion()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
                         <i class="fa-solid fa-arrow-right"></i> السابق
@@ -138,7 +162,7 @@
                 </div>
             </div>
         </div>
-        <div id="completion-view" class="hidden max-w-lg mx-auto bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center space-y-6">
+        <div id="completion-view" class="hidden max-w-3xl mx-auto bg-white rounded-3xl p-8 shadow-sm border border-slate-100 text-center space-y-6">
             <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner">
                 <i class="fa-solid fa-award"></i>
             </div>
@@ -156,6 +180,11 @@
                     <div class="text-2xl font-black text-emerald-600" id="final-correct">0</div>
                     <div class="text-xs text-slate-500 font-semibold">الإجابات الصحيحة</div>
                 </div>
+                <div class="border-r border-slate-200"></div>
+                <div>
+                    <div class="text-2xl font-black text-rose-600" id="final-wrong">0</div>
+                    <div class="text-xs text-slate-500 font-semibold">الإجابات الخاطئة</div>
+                </div>
             </div>
             <div class="flex gap-3">
                 <button onclick="restartQuiz()" class="flex-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 py-3 rounded-xl font-bold text-sm transition">
@@ -165,6 +194,8 @@
                     <i class="fa-solid fa-house ml-1"></i> قائمة المواد
                 </button>
             </div>
+            <!-- مراجعة الأسئلة التي أُجيب عنها بشكل خاطئ -->
+            <div id="wrong-review" class="pt-6 border-t border-slate-100 space-y-4 text-right"></div>
         </div>
 
     </main>
@@ -876,6 +907,7 @@
             } else {
                 nextBtn.innerHTML = `التالي <i class="fa-solid fa-arrow-left"></i>`;
             }
+            updateNavigator();
         }
         function selectAnswer(optIdx) {
             userAnswers[currentIndex] = optIdx;
@@ -890,20 +922,6 @@
             updateLiveCounters();
             renderQuestion();
         }
-        function nextQuestion() {
-            if (currentIndex < currentQuestions.length - 1) {
-                currentIndex++;
-                renderQuestion();
-            } else {
-                showCompletion();
-            }
-        }
-        function prevQuestion() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                renderQuestion();
-            }
-        }
         function showCompletion() {
             let correctCount = 0;
             currentQuestions.forEach((q, idx) => {
@@ -913,6 +931,7 @@
             });
             document.getElementById('final-total').innerText = currentQuestions.length;
             document.getElementById('final-correct').innerText = correctCount;
+            renderWrongReview();
 
             document.getElementById('quiz-view').classList.add('hidden');
             document.getElementById('completion-view').classList.remove('hidden');
@@ -931,6 +950,109 @@
         window.onload = function() {
             initHome();
         };
+    
+        // ===== شريط أرقام الأسئلة =====
+        function updateNavigator() {
+            const navBar = document.getElementById('questions-navigator-bar');
+            if (navBar.children.length !== currentQuestions.length) {
+                navBar.innerHTML = '';
+                currentQuestions.forEach((_, idx) => {
+                    const btn = document.createElement('button');
+                    btn.id = `q-nav-btn-${idx}`;
+                    btn.innerText = idx + 1;
+                    btn.onclick = () => goToQuestion(idx);
+                    navBar.appendChild(btn);
+                });
+            }
+            const base = 'min-w-[2.5rem] h-10 px-3 rounded-xl font-bold text-sm transition flex items-center justify-center shrink-0 border ';
+            currentQuestions.forEach((q, idx) => {
+                const btn = navBar.children[idx];
+                const ans = userAnswers[idx];
+                let style;
+                if (idx === currentIndex) {
+                    style = 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-105';
+                } else if (ans === undefined) {
+                    style = 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100';
+                } else if (ans === q.correct) {
+                    style = 'bg-emerald-50 text-emerald-700 border-emerald-300';
+                } else {
+                    style = 'bg-rose-50 text-rose-700 border-rose-300';
+                }
+                btn.className = base + style;
+            });
+            const activeBtn = navBar.children[currentIndex];
+            if (activeBtn) {
+                activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        }
+
+        function goToQuestion(index) {
+            currentIndex = index;
+            renderQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentIndex < currentQuestions.length - 1) {
+                goToQuestion(currentIndex + 1);
+            } else {
+                showCompletion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                goToQuestion(currentIndex - 1);
+            }
+        }
+
+        // ===== مراجعة الإجابات الخاطئة بعد إنهاء الاختبار =====
+        function renderWrongReview() {
+            const box = document.getElementById('wrong-review');
+            const wrong = [];
+            let answered = 0;
+            currentQuestions.forEach((q, idx) => {
+                const ans = userAnswers[idx];
+                if (ans === undefined) return;
+                answered++;
+                if (ans !== q.correct) wrong.push(idx);
+            });
+            const skipped = currentQuestions.length - answered;
+            document.getElementById('final-wrong').innerText = wrong.length;
+
+            let html = '';
+            if (answered === 0) {
+                html += `<div class="bg-slate-50 border border-slate-200 text-slate-600 rounded-2xl p-4 text-sm font-bold text-center">لم تُجب عن أي سؤال.</div>`;
+            } else if (wrong.length === 0) {
+                html += `<div class="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-2xl p-4 text-sm font-bold text-center"><i class="fa-solid fa-star ml-1"></i> ممتاز! لا توجد أي إجابة خاطئة.</div>`;
+            } else {
+                html += `<h4 class="text-lg font-black text-slate-900 flex items-center gap-2"><i class="fa-solid fa-circle-xmark text-rose-600"></i> الأسئلة التي أخطأت فيها (${wrong.length})</h4>`;
+                wrong.forEach(idx => {
+                    const q = currentQuestions[idx];
+                    html += `
+                    <div class="bg-rose-50/40 border border-rose-100 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-start gap-3">
+                            <span class="shrink-0 bg-rose-100 text-rose-700 text-xs font-black rounded-lg px-2.5 py-1">${idx + 1}</span>
+                            <p class="font-bold text-slate-900 text-sm md:text-base leading-relaxed">${q.text}</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm font-semibold">
+                            <div class="bg-white border border-rose-300 text-rose-700 rounded-xl p-3 flex items-start gap-2">
+                                <i class="fa-solid fa-circle-xmark mt-0.5"></i>
+                                <span><span class="block text-xs opacity-70">إجابتك</span>${q.options[userAnswers[idx]]}</span>
+                            </div>
+                            <div class="bg-white border border-emerald-300 text-emerald-700 rounded-xl p-3 flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check mt-0.5"></i>
+                                <span><span class="block text-xs opacity-70">الإجابة الصحيحة</span>${q.options[q.correct]}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            }
+            if (skipped > 0 && answered > 0) {
+                html += `<p class="text-xs text-slate-500 font-semibold text-center">عدد الأسئلة التي لم تُجب عنها: ${skipped}</p>`;
+            }
+            box.innerHTML = html;
+        }
+
     </script>
 
 <!-- استدعاء مكتبات Firebase للويب -->
